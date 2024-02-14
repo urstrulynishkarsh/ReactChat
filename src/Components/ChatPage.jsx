@@ -1,0 +1,214 @@
+import React, { useEffect, useRef, useState } from 'react'
+import { io } from 'socket.io-client';
+import { useLocation,  } from 'react-router';
+import MessageTemplate from './MessageTemplate';
+import LocationTemplate from './LocationTemplate';
+import Swal from 'sweetalert2';
+import Mustache from 'mustache';
+import moment from 'moment';
+import Qs from 'qs';
+import { useNavigate } from 'react-router-dom'
+import toast from 'react-hot-toast';
+
+
+
+const socket = io('ws://localhost:4000', { transports: ['websocket'] });
+
+const ChatPage = () => {
+    
+    const location = useLocation();
+    const [messages, setMessages] = useState([]);
+    const [inputMessage, setInputMessage] = useState('');
+    const [users, setUsers] = useState([]);
+    const navigate=useNavigate();
+    const messagesContainerRef = useRef(null);
+    const [hasError, setHasError] = useState(false); 
+
+    // Options
+    // this will work only if there is ? mark in url 
+    const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
+ 
+ 
+
+
+    useEffect(() => {
+      socket.emit('join', { username, room }, (error) => {
+        if (error) {
+          // toast.success('pagal hai kya already banda andar!');
+       // Use toast for displaying errors
+        } else {
+          setHasError(false);
+          toast.success('You have joined the room!');
+        }
+      });
+      
+  
+      socket.on('disconnect', () => {
+        console.log('Disconnected from the server');
+        navigate('/');
+      });
+  
+      return () => {
+        socket.off('disconnect');
+      };
+    }, [username, room]);
+
+    useEffect(() => {
+      socket.on('message', (message) => {
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            username: message.username,
+            message: message.text,
+            createdAt: moment(message.createdAt).format('h:mm a'),
+          },
+        ]);
+        scrollToBottom();
+      });
+  
+      socket.on('locationMessage', (message) => {
+        console.log(messages);
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          {
+            username: message.username,
+            url: message.url,
+            createdAt: moment(message.createdAt).format('h:mm a'),
+          },
+        ]);
+        scrollToBottom();
+      });
+  
+      socket.on('roomData', ({room, users}) => {
+        console.log("this is my room data users",users)
+        console.log("this is my room data room",room)
+        setUsers(users);
+        console.log("my Users: ",users)
+      });
+  
+      return () => {
+        socket.off('message');
+        socket.off('locationMessage');
+        socket.off('roomData');
+      };
+    }, []);
+  
+
+    const handleSubmit = (e) => {
+      e.preventDefault();
+      const message = e.target.elements.message.value
+      socket.emit('sendMessage', message, (error) => {
+        if (error) {
+          console.log(error);
+        } else {
+          setInputMessage('');
+          console.log('Message delivered!');
+        }
+      });
+    };
+  
+    const handleSendLocation = () => {
+      if (!navigator.geolocation) {
+        return alert('Geolocation is not supported by your browser.');
+      }
+  
+      navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit('sendLocation', {
+           latitude: position.coords.latitude,
+           longitude: position.coords.longitude }, () => {
+          console.log('Location shared!');
+        });
+      });
+    };
+
+      const scrollToBottom = () => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+
+  window.onbeforeunload = function () {
+    return()=>{
+      "Do you really want to leave?"
+      navigate('/')
+      }
+};
+
+  return (
+    <div className='flex'>
+        <div className='w-[250px] min-h-screen bg-[#6674cc] items-center text-white  rounded-md bg- border'>
+            <h2 className="font-normal text-[22px] bg-[#eae4f6] text-richblack-900 p-[24px]">ROOM NO- {room}</h2>
+            <h3 className="font-[500px] text-[18px] mb-[4px]" style={{ padding: '12px 24px 0 24px' }}>Users</h3>
+            <ul className="users">
+            {users.map((user, index) => (
+            <li key={index} className='ml-2'>
+              {user.username}
+              <span className="hello"></span>
+            </li>
+          ))}
+        </ul>
+        </div>
+        <div className=" flex flex-col max-h-screen " style={{flexGrow:1}}>
+            <div id="messages" className=" overflow-y-auto z-50"  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
+            {messages.map((msg, index) => (
+             msg.url ? (
+              <LocationTemplate key={index} username={msg.username} createdAt={msg.createdAt} url={msg.url} />
+            ) : (
+              <MessageTemplate key={index} username={msg.username} createdAt={msg.createdAt} message={msg.message} />
+            )
+          ))}
+            </div>
+
+        
+            <div className="compose  ">
+            <form id="message-form" 
+            onSubmit={handleSubmit}
+            >
+          <input
+            name="message"
+            placeholder="Message"
+            className='rounded-lg'
+            value={inputMessage}
+            onChange={(e) => setInputMessage(e.target.value)}
+            required
+          />
+          <button
+            type="submit"
+            className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+          >
+            Send
+            <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+              <desc></desc>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+              <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
+            </svg>
+          </button>
+        </form>
+        <button
+          id="send-location"
+          onClick={handleSendLocation}
+          className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+        >
+          Send location
+          <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+            <desc></desc>
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+            <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
+          </svg>
+        </button>
+
+            </div>
+        </div>
+    </div>
+  )
+}
+
+export default ChatPage

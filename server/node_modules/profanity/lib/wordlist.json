@@ -1,0 +1,71 @@
+{
+	"subject": {
+		"formal": [
+			"you",
+			"he",
+			"she",
+			"it",
+			"we",
+			"they"
+		],
+		"profane": [
+			[
+				"you mother fucker",
+				"you fucker",
+				"you asshat",
+				"you twat",
+				"you ass"
+			],
+			[
+				"that mother fucker",
+				"that fucker",
+				"that ass hole",
+				"that douche bag",
+				"that sucker"
+			],
+			[
+				"that bitch",
+				"that fucker",
+				"that skank",
+				"that tard"
+			],
+			[
+				"that bastard",
+				"that piece of crap",
+				"that bitch",
+				"that shit head"
+			],
+			[
+				"us assholes",
+				"us fuckers",
+				"us bastards"
+			],
+			[
+				"them fuckers",
+				"those bastards",
+				"those fuck heads",
+				"those ass wipes"
+			]
+		]
+	},
+	"possessive": {
+		"formal": [
+			"my",
+			"your",
+			"his",
+			"her",
+			"its",
+			"our",
+			"their"
+		],
+		"profane": [
+			"fucking",
+			"mother fucking",
+			"bloody",
+			"damned",
+			"darned",
+			"god damned",
+			"bitching"
+		]
+	}
+}

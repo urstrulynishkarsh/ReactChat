@@ -1,0 +1,116 @@
+
+
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+
+
+
+body{
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  margin: 0;
+}
+
+
+
+.cardname {
+    min-width: 0;
+    overflow-wrap: break-word;
+}
+
+
+.container{
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
+  height: '100vh';
+  margin-left: 48;
+}
+circle {
+  transform-origin: center;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: rotate linear infinite;
+}
+circle:nth-child(1) {
+  animation-duration: 1.6s;
+}
+circle:nth-child(2) {
+  animation-duration: 1.2s;
+}
+circle:nth-child(3) {
+  animation-duration: 0.8s;
+}
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+.compose {
+  display: flex;
+  flex-shrink: 0;
+  margin-top: 16px;
+  padding: 24px;
+}
+
+.compose form {
+  display: flex;
+  flex-grow: 1;
+  margin-right: 16px;
+}
+
+.compose input {
+  border: 1px solid #eeeeee;
+  width: 100%;
+  padding: 12px;
+  margin: 0 16px 0 0;
+  flex-grow: 1;
+}
+
+.compose button {
+  font-size: 14px;
+}
+
+
+
+
+.message {
+  margin-bottom: 16px;   
+}
+
+.message__name {
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 8px;
+}
+
+.message__meta {
+  color: #777;
+  font-size: 14px;
+}
+
+/* #messages {
+  overflow-y: scroll;
+} */
+
+
+.message a {
+  color: #0070CC;
+}
+
+.hello {
+  display: inline-block;
+  width: 10px; /* Set the desired size of the circle */
+  height: 10px; /* Set the desired size of the circle */
+  border-radius: 50%;
+  background-color: #2ecc71; /* Set the desired green color */
+  margin-left: 5px; /* Add some spacing between the circle and the username */
+}
