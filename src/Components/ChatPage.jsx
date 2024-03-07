@@ -17,10 +17,11 @@ const socket = io('ws://localhost:4000', { transports: ['websocket'] });
 const ChatPage = () => {
     
     const location = useLocation();
+    const navigate=useNavigate();
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
     const [users, setUsers] = useState([]);
-    const navigate=useNavigate();
+    const [typingUsers, setTypingUsers] = useState([]);
     const messagesContainerRef = useRef(null);
     const [hasError, setHasError] = useState(false); 
 
@@ -39,7 +40,7 @@ const ChatPage = () => {
        // Use toast for displaying errors
         } else {
           setHasError(false);
-          toast.success('You have joined the room!');
+          toast.success(`${username} joined the room!`);
         }
       });
       
@@ -66,7 +67,8 @@ const ChatPage = () => {
         ]);
         scrollToBottom();
       });
-  
+
+     
       socket.on('locationMessage', (message) => {
         console.log(messages);
         setMessages((prevMessages) => [
@@ -80,17 +82,17 @@ const ChatPage = () => {
         scrollToBottom();
       });
   
-      socket.on('roomData', ({room, users}) => {
-        console.log("this is my room data users",users)
-        console.log("this is my room data room",room)
+      socket.on('roomData', ({users}) => {
         setUsers(users);
         console.log("my Users: ",users)
       });
-  
+
+          
       return () => {
         socket.off('message');
         socket.off('locationMessage');
         socket.off('roomData');
+        // socket.off("typing");
       };
     }, []);
   
@@ -103,10 +105,19 @@ const ChatPage = () => {
           console.log(error);
         } else {
           setInputMessage('');
+          setTypingUsers([]);
           console.log('Message delivered!');
         }
       });
     };
+
+    const handleTyping=()=>{
+      const message = inputMessage.trim();
+  if (message) {
+    socket.emit('typing');
+  } 
+  else return
+    }
   
     const handleSendLocation = () => {
       if (!navigator.geolocation) {
@@ -122,7 +133,7 @@ const ChatPage = () => {
       });
     };
 
-      const scrollToBottom = () => {
+   const scrollToBottom = () => {
     if (messagesContainerRef.current) {
       messagesContainerRef.current.scrollTop = messagesContainerRef.current.scrollHeight;
     }
@@ -132,13 +143,31 @@ const ChatPage = () => {
     scrollToBottom();
   }, [messages]);
 
-
   window.onbeforeunload = function () {
     return()=>{
       "Do you really want to leave?"
       navigate('/')
-      }
-};
+      } 
+  };
+
+  // Client side
+useEffect(() => {
+  // Listen for "userTyping" events and update the typingUsers state
+  socket.on('userTyping', (hello) => {
+    setTypingUsers((prevTypingUsers) => [...prevTypingUsers, hello]);
+  });
+
+  return () => {
+    // Clean up event listeners
+    socket.off('userTyping');
+  };
+}, []);
+console.log(typingUsers.length)
+
+
+useEffect(() => {
+  console.log(typingUsers);
+}, [typingUsers]);
 
   return (
     <div className='flex'>
@@ -165,10 +194,17 @@ const ChatPage = () => {
           ))}
             </div>
 
+            {typingUsers.length > 0 && (
+  <div>
+    {typingUsers[0]}
+  </div>
+)}
+
         
             <div className="compose  ">
             <form id="message-form" 
             onSubmit={handleSubmit}
+            onChange={handleTyping} 
             >
           <input
             name="message"

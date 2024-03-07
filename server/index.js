@@ -3,7 +3,7 @@ const path=require('path');
 const http=require('http');
 const socketio=require('socket.io');
 const cors = require('cors');
-require("dotenv").config()
+
 const app=express()
 const server=http.createServer(app);
 const io=socketio(server);
@@ -45,8 +45,6 @@ io.on('connection',(socket)=>{
         callback()
     })
 
-
-
 	socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.id);
       
@@ -59,6 +57,13 @@ io.on('connection',(socket)=>{
         callback();
     });
 
+
+    socket.on('typing', () => {
+        const user = getUser(socket.id);
+        if (user) { // Check if user exists
+            socket.broadcast.to(user.room).emit('userTyping', `${user.username} is typing...`);
+        }
+    });
 
 	socket.on('sendLocation', (coords, callback) => {
         const user = getUser(socket.id)
