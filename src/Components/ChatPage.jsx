@@ -12,7 +12,7 @@ import toast from 'react-hot-toast';
 
 
 
-const socket = io('ws://newsocket-env.eba-cnm4pmey.ap-south-1.elasticbeanstalk.com/', { transports: ['websocket'] });
+const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
 const ChatPage = () => {
     
