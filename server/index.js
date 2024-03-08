@@ -19,8 +19,11 @@ app.use(cors({
     origin: 'http://localhost:3000', // Adjust this based on your React app's origin
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
-    transports: ['websocket'],
+    transports: ['websocket','https','http'],
 }));
+
+
+// io.set('transports', ['websocket']); // Set WebSocket as the only transport
 
 io.on('connection',(socket)=>{
 	console.log('New WebSocket Connection');
