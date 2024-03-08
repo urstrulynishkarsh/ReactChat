@@ -11,11 +11,8 @@ import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast';
 
 
-const socket = io('wss://socketio-env.eba-3jitqgnh.ap-south-1.elasticbeanstalk.com/', { transports: ['websocket'] });
 
-
-// const socket = io('http://socketio-env.eba-3jitqgnh.ap-south-1.elasticbeanstalk.com/', { transports: ['websocket'] });
-// const socket = io('https://socketio-env.eba-3jitqgnh.ap-south-1.elasticbeanstalk.com/', { transports: ['websocket'] });
+const socket = io('ws://socketio-env.eba-3jitqgnh.ap-south-1.elasticbeanstalk.com/', { transports: ['websocket'] });
 
 const ChatPage = () => {
     
@@ -31,6 +28,9 @@ const ChatPage = () => {
     // Options
     // this will work only if there is ? mark in url 
     const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+
+ 
+ 
 
 
     useEffect(() => {
