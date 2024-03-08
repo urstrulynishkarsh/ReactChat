@@ -6,7 +6,7 @@ const cors = require('cors');
 
 const app=express()
 const server=http.createServer(app);
-const io=socketio(server);
+// const io=socketio(server);
 const Filter = require('bad-words')
 
 const {addUser,removeUser,getUser,getUsersInRoom} =require('./Utils/Users');
@@ -15,12 +15,31 @@ const {generateMessage,generateLocationMessage}=require('./Utils/Messages');
 const PORT=process.env.PORT||5000;
 
 // Use cors middleware with WebSocket support
-app.use(cors({
-    origin: 'http://localhost:3000', // Adjust this based on your React app's origin
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-    transports: ['websocket'],
-}));
+// app.use(cors({
+//     origin: 'http://localhost:3000', // Adjust this based on your React app's origin
+//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+//     credentials: true,
+// }));
+
+
+app.use(cors());
+
+const io = socketio(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+});
+
+
+// Socket.IO CORS middleware
+io.use((socket, next) => {
+    // Set CORS headers for Socket.IO requests
+    socket.handshake.headers.origin = socket.handshake.headers.referer;
+    next();
+});
 
 
 
