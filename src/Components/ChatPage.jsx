@@ -12,8 +12,8 @@ import toast from 'react-hot-toast';
 
 
 
-// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
-const socket = io('http://hellonewapp-env.eba-wwdrgt29.ap-south-1.elasticbeanstalk.com/');
+const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
+// const socket = io('http://hellonewapp-env.eba-wwdrgt29.ap-south-1.elasticbeanstalk.com/');
 
 const ChatPage = () => {
     
@@ -26,19 +26,28 @@ const ChatPage = () => {
     const messagesContainerRef = useRef(null);
     const [hasError, setHasError] = useState(false); 
 
+
+
+    
+
     // Options
     // this will work only if there is ? mark in url 
     const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
 
- 
- 
-
-
     useEffect(() => {
       socket.emit('join', { username, room }, (error) => {
         if (error) {
-          // toast.success('pagal hai kya already banda andar!');
-       // Use toast for displaying errors
+          // Display popup if the user is already in a room
+          // Swal.fire({
+          //   title: 'Already in Room',
+          //   text: 'You are already in a room. Redirecting to home page...',
+          //   icon: 'info',
+          //   showConfirmButton: false,
+          //   timer: 2000, // Adjust the timer as needed
+          //   willClose: () => {
+          //     navigate('/'); // Redirect to home page
+          //   }
+          // });
         } else {
           setHasError(false);
           toast.success(`${username} joined the room!`);
@@ -93,7 +102,6 @@ const ChatPage = () => {
         socket.off('message');
         socket.off('locationMessage');
         socket.off('roomData');
-        // socket.off("typing");
       };
     }, []);
   
@@ -151,24 +159,33 @@ const ChatPage = () => {
       } 
   };
 
-  // Client side
-useEffect(() => {
-  // Listen for "userTyping" events and update the typingUsers state
-  socket.on('userTyping', (hello) => {
-    setTypingUsers((prevTypingUsers) => [...prevTypingUsers, hello]);
-  });
+  function handleDisconnect() {
+    Swal.fire({
+    title: 'Disconnect Chat',
+    text: 'Are you sure you want to disconnect from the chat?',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Yes',
+    cancelButtonText: 'No'
+}).then((result) => {
+    if (result.isConfirmed) {
+        if (socket) {
+            socket.disconnect(); // Disconnect the socket connection
+            console.log('Disconnected from the chat server!');
+         
+            window.location.href = '/';
+        } else {
+            console.log('No active chat connection to disconnect.');
+        }
+    }
+});
 
-  return () => {
-    // Clean up event listeners
-    socket.off('userTyping');
-  };
-}, []);
-console.log(typingUsers.length)
+window.onpopstate = function () {
+  handleDisconnect(); // Call disconnect function when navigating back using browser's back arrow
+};
 
 
-useEffect(() => {
-  console.log(typingUsers);
-}, [typingUsers]);
+}
 
   return (
     <div className='flex'>
@@ -185,6 +202,16 @@ useEffect(() => {
         </ul>
         </div>
         <div className=" flex flex-col max-h-screen " style={{flexGrow:1}}>
+        <div className=''>
+              <button
+          
+          onClick={handleDisconnect}
+          className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+        >
+          Disconnect
+        </button>
+
+              </div>
             <div id="messages" className=" overflow-y-auto z-50"  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
             {messages.map((msg, index) => (
              msg.url ? (

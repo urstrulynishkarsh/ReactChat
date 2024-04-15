@@ -8,7 +8,7 @@
     "http": "^0.0.1-security",
     "leo-profanity": "^1.7.0",
     "profanity": "^0.0.2",
-    "socket.io": "^4.7.4"
+    "socket.io": "^4.7.5"
   },
   "name": "server",
   "version": "1.0.0",
