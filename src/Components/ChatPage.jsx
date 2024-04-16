@@ -10,10 +10,8 @@ import Qs from 'qs';
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast';
 
-
-
 const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
-// const socket = io('http://hellonewapp-env.eba-wwdrgt29.ap-south-1.elasticbeanstalk.com/');
+// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
 const ChatPage = () => {
     
@@ -27,43 +25,40 @@ const ChatPage = () => {
     const [hasError, setHasError] = useState(false); 
 
 
-
-    
-
     // Options
     // this will work only if there is ? mark in url 
     const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
 
-    useEffect(() => {
-      socket.emit('join', { username, room }, (error) => {
-        if (error) {
-          // Display popup if the user is already in a room
-          // Swal.fire({
-          //   title: 'Already in Room',
-          //   text: 'You are already in a room. Redirecting to home page...',
-          //   icon: 'info',
-          //   showConfirmButton: false,
-          //   timer: 2000, // Adjust the timer as needed
-          //   willClose: () => {
-          //     navigate('/'); // Redirect to home page
-          //   }
-          // });
-        } else {
-          setHasError(false);
-          toast.success(`${username} joined the room!`);
-        }
-      });
-      
+    socket.emit('join', { username, room }, (error) => {
+      if (error) {
+        // Display popup if the user is already in a room
+        // Swal.fire({
+        //   title: 'Already in Room',
+        //   text: 'You are already in a room. Redirecting to home page...',
+        //   icon: 'info',
+        //   showConfirmButton: false,
+        //   timer: 2000, // Adjust the timer as needed
+        //   willClose: () => {
+        //     navigate('/'); // Redirect to home page
+        //   }
+        // });
+        console.log("new part")
+      } else {
+        setHasError(false);
+        toast.success(`${username} joined the room!`);
+      }
+    });
+
+    // useEffect(() => {
+    //   socket.on('disconnect', () => {
+    //     console.log('Disconnected from the server');
+    //     navigate('/');
+    //   });
   
-      socket.on('disconnect', () => {
-        console.log('Disconnected from the server');
-        navigate('/');
-      });
-  
-      return () => {
-        socket.off('disconnect');
-      };
-    }, [username, room]);
+    //   return () => {
+    //     socket.off('disconnect');
+    //   };
+    // }, []);
 
     useEffect(() => {
       socket.on('message', (message) => {
@@ -92,9 +87,10 @@ const ChatPage = () => {
         scrollToBottom();
       });
   
-      socket.on('roomData', ({users}) => {
+      socket.on('roomData', ({room, users}) => {
         setUsers(users);
         console.log("my Users: ",users)
+        console.log("room",room)
       });
 
           
@@ -172,7 +168,6 @@ const ChatPage = () => {
         if (socket) {
             socket.disconnect(); // Disconnect the socket connection
             console.log('Disconnected from the chat server!');
-         
             window.location.href = '/';
         } else {
             console.log('No active chat connection to disconnect.');
@@ -180,12 +175,12 @@ const ChatPage = () => {
     }
 });
 
+}
+
 window.onpopstate = function () {
-  handleDisconnect(); // Call disconnect function when navigating back using browser's back arrow
+  console.log("hello")
 };
 
-
-}
 
   return (
     <div className='flex'>
@@ -201,18 +196,21 @@ window.onpopstate = function () {
           ))}
         </ul>
         </div>
-        <div className=" flex flex-col max-h-screen " style={{flexGrow:1}}>
-        <div className=''>
-              <button
-          
+        <div className=" flex  flex-col max-h-screen" style={{flexGrow:1}}>
+       
+
+             
+            <div id="messages" className=" overflow-y-auto z-50"  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
+            <div className='right-8 absolute top-3 '>
+          <button 
           onClick={handleDisconnect}
-          className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+          className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
         >
           Disconnect
         </button>
 
-              </div>
-            <div id="messages" className=" overflow-y-auto z-50"  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
+        </div>
+
             {messages.map((msg, index) => (
              msg.url ? (
               <LocationTemplate key={index} username={msg.username} createdAt={msg.createdAt} url={msg.url} />
@@ -220,6 +218,8 @@ window.onpopstate = function () {
               <MessageTemplate key={index} username={msg.username} createdAt={msg.createdAt} message={msg.message} />
             )
           ))}
+
+
             </div>
 
             {typingUsers.length > 0 && (
