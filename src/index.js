@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
 import Loader from "./Components/Loader";
+import { DarkModeToggle } from "dark-mode-toggle";
 
 
 const RootComponent = () => {

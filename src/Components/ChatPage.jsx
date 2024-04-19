@@ -9,11 +9,12 @@ import moment from 'moment';
 import Qs from 'qs';
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast';
+import EmojiPicker from 'emoji-picker-react';
 
 const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
-const ChatPage = () => {
+const ChatPage = ({darkMode,setDarkMode}) => {
     
     const location = useLocation();
     const navigate=useNavigate();
@@ -213,9 +214,9 @@ window.onpopstate = function () {
 
             {messages.map((msg, index) => (
              msg.url ? (
-              <LocationTemplate key={index} username={msg.username} createdAt={msg.createdAt} url={msg.url} />
+              <LocationTemplate darkMode={darkMode} setDarkMode={setDarkMode}  key={index} username={msg.username} createdAt={msg.createdAt} url={msg.url} />
             ) : (
-              <MessageTemplate key={index} username={msg.username} createdAt={msg.createdAt} message={msg.message} />
+              <MessageTemplate darkMode={darkMode} setDarkMode={setDarkMode} key={index} username={msg.username} createdAt={msg.createdAt} message={msg.message} />
             )
           ))}
 
@@ -241,7 +242,9 @@ window.onpopstate = function () {
             value={inputMessage}
             onChange={(e) => setInputMessage(e.target.value)}
             required
+            
           />
+        
           <button
             type="submit"
             className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
