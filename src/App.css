@@ -96,6 +96,9 @@ circle:nth-child(3) {
   color: #777;
   font-size: 14px;
 }
+.brosize{
+  min-height: 70vh;
+}
 
 /* #messages {
   overflow-y: scroll;

@@ -213,7 +213,7 @@ window.onpopstate = function () {
          
         </ul>
         </div>
-        <div className=" flex  flex-col min-h-screen   max-h-screen" style={{flexGrow:1}}>
+        <div className=" flex  flex-col brosize  max-h-screen" style={{flexGrow:1}}>
             <div id="messages" className=" overflow-y-auto "  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
             <div className='right-8 absolute top-3 '>
           <div className=' flex'>
