@@ -10,6 +10,8 @@ import Qs from 'qs';
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast';
 import EmojiPicker from 'emoji-picker-react';
+import { AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai'
+import MobileMenu from './MobileMenu';
 
 const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
@@ -24,6 +26,15 @@ const ChatPage = ({darkMode,setDarkMode}) => {
     const [typingUsers, setTypingUsers] = useState([]);
     const messagesContainerRef = useRef(null);
     const [hasError, setHasError] = useState(false); 
+   
+
+
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+
+    const toggleMenu = () => {
+      setIsMenuOpen(!isMenuOpen);
+    };
 
 
     // Options
@@ -43,12 +54,13 @@ const ChatPage = ({darkMode,setDarkMode}) => {
         //     navigate('/'); // Redirect to home page
         //   }
         // });
-        console.log("new part")
+        // console.log("new part")
       } else {
         setHasError(false);
         toast.success(`${username} joined the room!`);
       }
     });
+    
 
     // useEffect(() => {
     //   socket.on('disconnect', () => {
@@ -156,7 +168,7 @@ const ChatPage = ({darkMode,setDarkMode}) => {
       } 
   };
 
-  function handleDisconnect() {
+  function handleDisconnectConfirmation() {
     Swal.fire({
     title: 'Disconnect Chat',
     text: 'Are you sure you want to disconnect from the chat?',
@@ -179,36 +191,48 @@ const ChatPage = ({darkMode,setDarkMode}) => {
 }
 
 window.onpopstate = function () {
-  console.log("hello")
+    console.log("hello")
+  
+    console.log("new data")
+
 };
 
 
   return (
-    <div className='flex'>
-        <div className='w-[250px] min-h-screen bg-[#6674cc] items-center text-white  rounded-md bg- border'>
+    <div className='flex '>
+        <div className='w-[250px] min-h-screen hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border '>
             <h2 className="font-normal text-[22px] bg-[#eae4f6] text-richblack-900 p-[24px]">ROOM NO- {room}</h2>
             <h3 className="font-[500px] text-[18px] mb-[4px]" style={{ padding: '12px 24px 0 24px' }}>Users</h3>
             <ul className="users">
             {users.map((user, index) => (
             <li key={index} className='ml-2'>
-              {user.username}
+              {user.username.length> 10 ? username.slice(0,20) + '...' : username}
               <span className="hello"></span>
             </li>
           ))}
+         
         </ul>
         </div>
-        <div className=" flex  flex-col max-h-screen" style={{flexGrow:1}}>
-       
-
-             
-            <div id="messages" className=" overflow-y-auto z-50"  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
+        <div className=" flex  flex-col min-h-screen   max-h-screen" style={{flexGrow:1}}>
+            <div id="messages" className=" overflow-y-auto "  ref={messagesContainerRef} style={{flexGrow:1,padding: '12px 24px 0 24px',overflowAnchor: 'bottom'}}>
             <div className='right-8 absolute top-3 '>
+          <div className=' flex'>
+            <button className="mr-4 sm:hidden" onClick={toggleMenu}>
+          {isMenuOpen ? (
+            /* If menu is open, display close icon */
+            <AiOutlineClose  className="w-10    rounded-md bg-headText py-[2px] transition-all duration-300" fontSize={50} fill="#AFB2BF" />
+          ) : (
+            /* If menu is closed, display menu icon */
+            <AiOutlineMenu className="w-10  rounded-md bg-headText py-[2px] transition-all duration-300" fontSize={50} fill="#AFB2BF" />
+          )}
+        </button>
           <button 
-          onClick={handleDisconnect}
+          onClick={handleDisconnectConfirmation}
           className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
         >
           Disconnect
         </button>
+        </div>
 
         </div>
 
@@ -230,7 +254,7 @@ window.onpopstate = function () {
 )}
 
         
-            <div className="compose  ">
+            <div className="compose">
             <form id="message-form" 
             onSubmit={handleSubmit}
             onChange={handleTyping} 
@@ -247,7 +271,7 @@ window.onpopstate = function () {
         
           <button
             type="submit"
-            className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+            className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
           >
             Send
             <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -261,7 +285,7 @@ window.onpopstate = function () {
         <button
           id="send-location"
           onClick={handleSendLocation}
-          className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+          className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6  h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
         >
           Send location
           <svg stroke="currentColor" fill="none" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
@@ -273,7 +297,18 @@ window.onpopstate = function () {
         </button>
 
             </div>
+
+
+           
         </div>
+
+        
+
+
+      {
+  isMenuOpen  && <MobileMenu users={users} room={room} darkMode={darkMode}/>
+} 
+
     </div>
   )
 }

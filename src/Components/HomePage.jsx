@@ -1,9 +1,15 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import Qs from 'qs';
+import { io } from 'socket.io-client';
 import './HomePage.css'
 
+
+
+
 const HomePage = () => {
+
+  const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
     const navigate=useNavigate();
     const location=useLocation();
     const [formData, setFormData] = useState({
@@ -21,6 +27,11 @@ const HomePage = () => {
         e.preventDefault();
         navigate(`chat?username=${formData.username}&room=${formData.room}`);
     }
+
+   
+
+
+
     
   return (
    

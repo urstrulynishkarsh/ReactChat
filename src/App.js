@@ -49,12 +49,13 @@ function App() {
           'textarea',
           'button',
           '.link'
+          
         ]}
       />
     </div>
 
-    <button className="flex justify-end absolute translate-x-40 z-40 " onClick={hanldeDarkMode}>
-        {darkMode ? <MdModeNight className="text-7xl text-white" />: <WiDaySunny  className=" text-7xl"/> }
+    <button className="flex justify-end absolute xl:top-2 xl:right-48 top-16 right-5 sm:top-2 sm:right-48 md:top-2 md:right-48  lg:top-2 lg:right-48 z-40  " onClick={hanldeDarkMode}>
+        {darkMode ? <MdModeNight className="xl:text-7xl lg:text-7xl md:text-7xl sm:text-7xl text-6xl  text-white" />: <WiDaySunny  className=" xl:text-7xl lg:text-7xl md:text-7xl sm:text-7xl text-6xl"/> }
       </button>
   
       <Routes>
