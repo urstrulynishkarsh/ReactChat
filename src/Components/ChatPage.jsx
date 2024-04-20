@@ -206,7 +206,7 @@ window.onpopstate = function () {
             <ul className="users">
             {users.map((user, index) => (
             <li key={index} className='ml-2'>
-              {user.username.length> 10 ? username.slice(0,20) + '...' : username}
+              {user.username}
               <span className="hello"></span>
             </li>
           ))}
