@@ -98,7 +98,7 @@ circle:nth-child(3) {
 }
 .brosize{
   min-height: 75vh;
-  min-width: 100vw;
+  /* min-width: 100vw; */
 }
 
 /* #messages {
