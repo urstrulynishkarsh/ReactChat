@@ -27,7 +27,7 @@ function App() {
   }
   
   return (
-    <div className={`w-screen min-h-screen ${darkMode ? 'bg-black' : ''} bg-[#ededed] flex flex-col font-inter`}>
+    <div className={`w-screen h-[100vh] ${darkMode ? 'bg-black' : ''} bg-[#ededed] flex flex-col font-inter`}>
     
       <div className="App">
       <AnimatedCursor 
