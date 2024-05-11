@@ -1,6 +1,8 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Landing from "./Components/Landing";
 import HomePage from "./Components/HomePage";
+import HomePage2 from "./Components/HomePage2";
 import ChatPage from "./Components/ChatPage";
 import AnimatedCursor from "react-animated-cursor";
 import { DarkModeToggle } from "dark-mode-toggle";
@@ -59,7 +61,9 @@ function App() {
       </button>
   
       <Routes>
-        <Route path="/" element={<HomePage/>}/>
+        <Route path="/" element={<Landing/>}/>
+        <Route path="createroom" element={<HomePage/>}/>
+        <Route path="joinroom" element={<HomePage2/>}/>
         <Route path="chat" element={<ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
       </Routes>
 
