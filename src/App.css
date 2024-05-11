@@ -118,3 +118,9 @@ circle:nth-child(3) {
   background-color: #2ecc71; /* Set the desired green color */
   margin-left: 5px; /* Add some spacing between the circle and the username */
 }
+.swal2-popup{
+  cursor: auto;
+}
+.swal2-confirm,.swal2-cancel{
+  cursor: pointer !important;
+}
