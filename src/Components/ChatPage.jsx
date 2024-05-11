@@ -33,7 +33,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [hasError, setHasError] = useState(false);
   const {showEmoji, setShowEmoji, ref} = useOutsideClick(false)
 
-  const handleEmojiShow = () => {
+  const handleEmojiShow = (e) => {
+    e.preventDefault();
     setShowEmoji((v) => !v);
   }
   const handleEmojiSelect = (e) => {
