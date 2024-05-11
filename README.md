@@ -11,21 +11,22 @@ This starter pack includes a basic setup for using **Tailwind CSS with React**. 
     git clone https://github.com/urstrulynishkarsh/ReactChat.git
     ```
 
-1. Install the required packages.
+2. Install the required packages.
     ```sh
     cd ReactChat
     npm install
     ```
 
-1. Start the development server.
+3. Start the development server.
     ```sh
     npm run dev
     ```
-1. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
-1. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
+4. Open the project in your browser at [`http://localhost:3000`](http://localhost:3000) to view your project.
+5. Create your React components and add your styles using Tailwind classes. You can also create new CSS files and import them into your components.
 
 The project is set up to use `postcss-cli` to process your CSS files. You can add your own `tailwind.config.js` file to customize your Tailwind setup.
 
 ## Contributing
 
-Contributions are welcome! If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
+Contributions are welcome! 
+If you have any suggestions or find any issues, please feel free to open an issue or a pull request.
