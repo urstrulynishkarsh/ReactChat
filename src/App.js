@@ -64,7 +64,8 @@ function App() {
         <Route path="/" element={<Landing/>}/>
         <Route path="createroom" element={<HomePage/>}/>
         <Route path="joinroom" element={<HomePage2/>}/>
-        <Route path="chat" element={<ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
+        <Route path="createroom/chat" element={<ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
+        <Route path="joinroom/chat" element={<ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
       </Routes>
 
       </div>
