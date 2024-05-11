@@ -12,6 +12,11 @@ import toast from 'react-hot-toast';
 import EmojiPicker from 'emoji-picker-react';
 import { AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai'
 import MobileMenu from './MobileMenu';
+import useOutsideClick from '../hooks/useOutsideClick';
+import { FaRegSmile } from "react-icons/fa";
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
+
 
 const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
@@ -26,7 +31,14 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+  const {showEmoji, setShowEmoji, ref} = useOutsideClick(false)
 
+  const handleEmojiShow = () => {
+    setShowEmoji((v) => !v);
+  }
+  const handleEmojiSelect = (e) => {
+    setInputMessage((newMessage)=> (newMessage += e.native));
+  }
 
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -253,12 +265,24 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           </div>
         )}
 
+        {showEmoji && (
+          <div ref={ref} className='fixed bottom-24'>
+            <Picker onEmojiSelect={handleEmojiSelect} emojiSize={30} />
+          </div>
+        )}
+
 
         <div className="compose">
           <form id="message-form"
             onSubmit={handleSubmit}
             onChange={handleTyping}
           >
+            <div>
+              <button className='relative bg-white rounded-l-lg p-[12px]' onClick={handleEmojiShow}>
+                <FaRegSmile style={{ fontSize: "40px", padding: "5px" }} />
+              </button>
+            </div>
+            
             <input
               name="message"
               placeholder="Message"
