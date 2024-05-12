@@ -7,6 +7,8 @@ import { DarkModeToggle } from "dark-mode-toggle";
 import { useEffect, useState } from "react";
 import { WiDaySunny } from "react-icons/wi";
 import { MdModeNight } from "react-icons/md";
+import {UseAuthProvider} from "./Context/UserAuthContext";
+import {PrivateRoute} from "./Components/PrivateRoute";
 
 
 function App() {
@@ -57,11 +59,16 @@ function App() {
     <button className="flex justify-end absolute xl:top-2 xl:right-48 top-16 right-5 sm:top-2 sm:right-48 md:top-2 md:right-48  lg:top-2 lg:right-48 z-40  " onClick={hanldeDarkMode}>
         {darkMode ? <MdModeNight className="xl:text-7xl lg:text-7xl md:text-7xl sm:text-7xl text-6xl  text-white" />: <WiDaySunny  className=" xl:text-7xl lg:text-7xl md:text-7xl sm:text-7xl text-6xl"/> }
       </button>
-  
-      <Routes>
-        <Route path="/" element={<HomePage/>}/>
-        <Route path="chat" element={<ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />} />
-      </Routes>
+        <UseAuthProvider>
+          <Routes>
+            <Route path="/" element={<HomePage/>}/>
+            <Route path="chat" element={
+                <PrivateRoute>
+                    <ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />
+                </PrivateRoute>
+            } />
+          </Routes>
+       </UseAuthProvider>
 
       </div>
     
