@@ -52,12 +52,14 @@ io.on("connection", (socket) => {
 
   // method ,options,callback
   socket.on("join", (options, callback) => {
-    const { error, user } = addUser({ id: socket.id, ...options });
+    const { status, error, user } = addUser({ id: socket.id, ...options });
 
-    if (error) {
-      return callback(error);
+    if (!status) {
+      return callback({
+        status,
+        error,
+      });
     }
-
     socket.join(user.room);
 
     socket.emit("message", generateMessage(`${user.username}`, "Welcome!"));
@@ -72,7 +74,10 @@ io.on("connection", (socket) => {
       users: getUsersInRoom(user.room),
     });
 
-    callback();
+    callback({
+      status,
+      error,
+    });
   });
 
   socket.on("sendMessage", (message, callback) => {
