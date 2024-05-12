@@ -13,8 +13,8 @@ import EmojiPicker from 'emoji-picker-react';
 import { AiOutlineClose, AiOutlineMenu, AiOutlineShoppingCart } from 'react-icons/ai'
 import MobileMenu from './MobileMenu';
 
-// const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
-const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
+const socket = io('wss://reactchat-production-f378.up.railway.app/', { transports: ['websocket'] });
+// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
 const ChatPage = ({ darkMode, setDarkMode }) => {
 
