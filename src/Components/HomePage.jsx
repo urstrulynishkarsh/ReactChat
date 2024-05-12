@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Qs from "qs";
 import { io } from "socket.io-client";
 import "./HomePage.css";
+import {useAuth} from "../Context/UserAuthContext";
 
 const HomePage = () => {
   const socket = io("wss://reactchat-production-f378.up.railway.app/", {
@@ -14,6 +15,9 @@ const HomePage = () => {
     username: "",
     room: "",
   });
+
+  const { setRoomDetail } = useAuth()
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -23,6 +27,7 @@ const HomePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setRoomDetail(formData.username)
     navigate(`chat?username=${formData.username}&room=${formData.room}`);
   };
 
