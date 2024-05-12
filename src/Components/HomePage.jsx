@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Qs from 'qs';
 import { io } from 'socket.io-client';
 import './HomePage.css'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -24,8 +26,24 @@ const HomePage = () => {
       };
 
     const handleSubmit=(e)=>{
-        e.preventDefault();
-        navigate(`chat?username=${formData.username}&room=${formData.room}`);
+      e.preventDefault();
+      const roomRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{4,}$/;
+        if (!roomRegex.test(formData.room)) {
+            if (!/(?=.*[a-z])/.test(formData.room)) {
+                toast.error('Room number must contain lowercase letter.');
+            }
+            if (!/(?=.*[A-Z])/.test(formData.room)) {
+                toast.error('Room number must contain uppercase letter.');
+            }
+            if (!/(?=.*\d)/.test(formData.room)) {
+                toast.error('Room number must contain number.');
+            }
+            if (formData.room.length < 4) {
+                toast.error('Room number must be at least 4 characters long.');
+            }
+            return; // Prevent further execution
+        }
+      navigate(`chat?username=${formData.username}&room=${formData.room}`);
     }
 
    
