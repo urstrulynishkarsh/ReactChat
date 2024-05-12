@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useLocation } from "react-router";
 import MessageTemplate from "./MessageTemplate";
@@ -17,12 +17,13 @@ import {
 } from "react-icons/ai";
 import MobileMenu from "./MobileMenu";
 
+// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
+
 // wss://reactchat-production-f378.up.railway.app/
 // dev mode http://localhost:5000
 const socket = io("wss://reactchat-production-f378.up.railway.app/", {
   transports: ["websocket"],
 });
-// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
 const ChatPage = ({ darkMode, setDarkMode }) => {
   const location = useLocation();
@@ -53,26 +54,6 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     ignoreQueryPrefix: true,
   });
 
-  socket.emit("join", { username, room }, (error) => {
-    if (error) {
-      // Display popup if the user is already in a room
-      // Swal.fire({
-      //   title: 'Already in Room',
-      //   text: 'You are already in a room. Redirecting to home page...',
-      //   icon: 'info',
-      //   showConfirmButton: false,
-      //   timer: 2000, // Adjust the timer as needed
-      //   willClose: () => {
-      //     navigate('/'); // Redirect to home page
-      //   }
-      // });
-      // console.log("new part")
-    } else {
-      setHasError(false);
-      toast.success(`${username} joined the room!`);
-    }
-  });
-
   // useEffect(() => {
   //   socket.on('disconnect', () => {
   //     console.log('Disconnected from the server');
@@ -84,6 +65,27 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   //   };
   // }, []);
 
+  useEffect(() => {
+    socket.emit("join", { username, room }, (data) => {
+      if (!data.status) {
+        // Display popup if the user is already in a room
+        Swal.fire({
+          title: "Already in Room",
+          text: "You are already in a room. Redirecting to home page...",
+          icon: "info",
+          showConfirmButton: false,
+          timer: 2000, // Adjust the timer as needed
+          willClose: () => {
+            navigate("/"); // Redirect to home page
+          },
+        });
+        // console.log("new part")
+      } else {
+        setHasError(false);
+        toast.success(`${username} joined the room!`);
+      }
+    });
+  }, []);
   useEffect(() => {
     socket.on("message", (message) => {
       setMessages((prevMessages) => [
