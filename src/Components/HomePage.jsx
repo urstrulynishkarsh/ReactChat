@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Qs from "qs";
 import { io } from "socket.io-client";
 import "./HomePage.css";
-import {useAuth} from "../Context/UserAuthContext";
+import { useAuth } from "../Context/UserAuthContext";
 
 const HomePage = () => {
   const socket = io("wss://reactchat-production-f378.up.railway.app/", {
@@ -17,6 +17,13 @@ const HomePage = () => {
   });
 
   const { setRoomDetail } = useAuth()
+
+  useEffect(() => {
+    const { room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
+    if (room) {
+      setFormData({ ...formData, room })
+    }
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
