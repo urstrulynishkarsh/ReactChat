@@ -8,7 +8,7 @@ const MessageTemplate = ({ username, createdAt, message,darkMode }) => {
             <span className={`${darkMode ? 'text-white' : ' text-black'}  message__name`}>{limitedUsername}</span>
             <span className="message__meta">{createdAt}</span>
         </p>
-        <p className={`${darkMode ? 'text-white' : ' text-black'}`}>{message}</p>
+        <div className={`${darkMode ? 'text-white' : ' text-black'} message__text`}>{message}</div>
   </div>
   )
 }
