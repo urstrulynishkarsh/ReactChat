@@ -17,7 +17,7 @@ import {
 } from "react-icons/ai";
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
-import { FaShare } from "react-icons/fa";
+import { FaMicrophone, FaShare } from "react-icons/fa";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -36,7 +36,12 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+
   const [isSmallScr,setSmallScr] = useState(false);
+
+
+  const [micHide, setMicHide] = useState(false);
+
   const [showShareBox, setShowShareBox] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -253,6 +258,23 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     console.log("new data");
   };
 
+  const startListening = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      setMicHide(true);
+      return;
+    }
+    const recognition = new SpeechRecognition();
+
+    recognition.onresult = (event) => {
+      const currentTranscript = event.results[0][0].transcript;
+      console.log(currentTranscript);
+      setInputMessage(currentTranscript);
+    };
+
+    recognition.start();
+  };
+
   return (
     <div className="flex h-[100vh]">
       <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
@@ -345,7 +367,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         )}
 
         <div className="compose">
-          <form id="message-form" onSubmit={handleSubmit}>
+          <form id="message-form" className="flex items-center" onSubmit={handleSubmit}>
             <input
               name="message"
               placeholder="Message"
@@ -354,6 +376,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               onChange={handleTyping}
               required
             />
+            {!micHide && (<FaMicrophone size={40} className={`m-2 mr-3 ${darkMode ? 'text-white' : 'text-pure-greys-600'}`} onClick={startListening} />)}
             <button
               type="submit"
               className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
