@@ -16,6 +16,8 @@ import {
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import MobileMenu from "./MobileMenu";
+import ShareBox from "./ShareBox";
+import { FaShare } from "react-icons/fa";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -35,6 +37,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
 
+  const [showShareBox, setShowShareBox] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const [iamTyping, setIamTyping] = useState(false);
@@ -252,8 +255,9 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   return (
     <div className="flex h-[100vh]">
       <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
-        <h2 className="font-normal text-[22px] bg-[#eae4f6] text-richblack-900 p-[24px]">
-          ROOM NO- {room}
+        <h2 className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between" onClick={() => { setShowShareBox(true) }}>
+          ROOM NO: {room}
+          <FaShare className="text-[#6674cc] ml-2" size={30} />
         </h2>
         <h3
           className="font-[500px] text-[18px] mb-[4px]"
@@ -400,6 +404,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       {isMenuOpen && (
         <MobileMenu users={users} room={room} darkMode={darkMode} />
       )}
+      {showShareBox && (<ShareBox showShareBox={setShowShareBox} link={`https://reactchatio.vercel.app?room=${room}`} />)}
     </div>
   );
 };
