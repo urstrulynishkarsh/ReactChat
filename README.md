@@ -11,55 +11,84 @@ Welcome to ReactChat, a powerful and dynamic web-based chat application built wi
 </p>
 
 ## Project Description
+
 ReactChat is a web-based chat application developed to meet the demands of modern communication. With real-time messaging, location sharing, user authentication, multimedia support, and responsive design, ReactChat offers a comprehensive platform for seamless interaction among users.
 
 ## 🔥 Key Features
-- Real-time messaging
-- Location sharing
-- User authentication
-- Multimedia support
-- Responsive design
+
+-   Real-time messaging
+-   Location sharing
+-   User authentication
+-   Multimedia support
+-   Responsive design
 
 ## 🌟 Why It Matters
+
 In today's digital landscape, traditional chat applications fall short of meeting user expectations. ReactChat aims to revolutionize communication by integrating cutting-edge technologies and features, providing users with an engaging and immersive experience.
 
 ## 💡 What Sets Us Apart
-- Advanced real-time communication
-- Seamless location sharing
-- User-friendly interface
-- Scalable architecture
+
+-   Advanced real-time communication
+-   Seamless location sharing
+-   User-friendly interface
+-   Scalable architecture
 
 ## 🌟 Tutorial
+
 Follow our step-by-step tutorial to get started with ReactChat:
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/urstrulynishkarsh/ReactChat.git
 ```
 
-### 2. Install Required Packages
+### 2. Enter to the directory
+
 ```bash
 cd ReactChat
+```
+
+## Using Local Server
+
+### 3. Install Required Packages
+
+```bash
 npm install
 ```
 
-### 3. Start the Development Server
+### 4. Start the Development Server
+
 ```bash
 npm run dev
 ```
 
-### 4. View Your Project
+## Using Docker
+
+### 3. Start the Container
+
+```bash
+docker-compose -f docker-compose.dev.yaml up
+# or
+docker-compose -f docker-compose.dev.yaml up --build
+```
+
+### \* View Your Project
+
 Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view your project.
 
 ## Building Your Project 🏗️
+
 Now that you've set up your development environment, it's time to start building your project:
 
-- **Create React Components:** Begin by creating your React components inside the `src/components` directory.
-- **Add Styles with Tailwind CSS:** Utilize Tailwind CSS classes to style your components directly in your JSX files or create new CSS files and import them into your components.
-- **Customize Tailwind Setup:** Customize your Tailwind setup by adding your own `tailwind.config.js` file if needed.
+-   **Create React Components:** Begin by creating your React components inside the `src/components` directory.
+-   **Add Styles with Tailwind CSS:** Utilize Tailwind CSS classes to style your components directly in your JSX files or create new CSS files and import them into your components.
+-   **Customize Tailwind Setup:** Customize your Tailwind setup by adding your own `tailwind.config.js` file if needed.
 
 ## Contributing 🤝
+
 Contributions to ReactChat are welcome! If you have any suggestions or encounter any issues, please feel free to open an issue or a pull request on [GitHub](https://github.com/urstrulynishkarsh/ReactChat).
 
 ## Conclusion 🎉
+
 Congratulations on setting up your Socket.IO Chat Room with Real-Time Location Sharing project! Reflect on what you've learned and celebrate your achievements!
