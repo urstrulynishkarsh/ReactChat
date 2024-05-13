@@ -18,6 +18,10 @@ import {
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaShare } from "react-icons/fa";
+import useOutsideClick from "./useOutsideClick";
+import { FaRegSmile } from "react-icons/fa";
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -46,6 +50,23 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     isTyping: false,
     data: "",
   });
+  const {showEmoji, setShowEmoji, ref} = useOutsideClick(false)
+
+  const inputRef = useRef(null); 
+  const handleEmojiShow = (e) => {
+    e.preventDefault();
+    setShowEmoji((v) => !v);
+  }
+  const handleEmojiSelect = (e) => {
+    setInputMessage((newMessage)=> (newMessage += e.native));
+  }
+  const handleKeyDown =(e)=>{
+    e.preventDefault();
+    if(e.key === "Enter"){
+      setShowEmoji(false);
+      inputRef.current.focus();
+    }
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -342,9 +363,22 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <p className="pl-4 text-[#6674cc] font-bold">{userTyping.data}</p>
         )}
 
+        {showEmoji && (
+          <div onKeyDown={handleKeyDown} ref={ref} className='fixed bottom-24'>
+            <Picker onEmojiSelect={handleEmojiSelect} emojiSize={30} />
+          </div>
+        )}  
+
+        <div className='flex items-center'>
+            <div>
+              <button className='relative top-2 left-3 bg-white rounded-lg p-[3px] ml-2' onClick={handleEmojiShow}>
+                <FaRegSmile style={{ fontSize: "40px", padding: "5px" }} />
+              </button>
+            </div>
         <div className="compose">
           <form id="message-form" onSubmit={handleSubmit}>
             <input
+              ref={inputRef}
               name="message"
               placeholder="Message"
               className="rounded-lg"
@@ -398,6 +432,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
             </svg>
           </button>
+        </div>
         </div>
       </div>
 
