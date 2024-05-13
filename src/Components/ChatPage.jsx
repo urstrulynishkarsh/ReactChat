@@ -18,6 +18,10 @@ import {
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
+import useOutsideClick from "./useOutsideClick";
+import { FaRegSmile } from "react-icons/fa";
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -47,6 +51,24 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     isTyping: false,
     data: "",
   });
+
+  const {showEmoji, setShowEmoji, ref} = useOutsideClick(false)
+
+  const inputRef = useRef(null); 
+  const handleEmojiShow = (e) => {
+    e.preventDefault();
+    setShowEmoji((v) => !v);
+  }
+  const handleEmojiSelect = (e) => {
+    setInputMessage((newMessage)=> (newMessage += e.native));
+  }
+  const handleKeyDown =(e)=>{
+    e.preventDefault();
+    if(e.key === "Enter"){
+      setShowEmoji(false);
+      inputRef.current.focus();
+    }
+  }
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -360,12 +382,23 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <p className="pl-4 text-[#6674cc] font-bold">{userTyping.data}</p>
         )}
 
+        {showEmoji && (
+          <div onKeyDown={handleKeyDown} ref={ref} className='fixed bottom-24'>
+            <Picker onEmojiSelect={handleEmojiSelect} emojiSize={30} />
+          </div>
+        )}  
         <div className="compose">
+            <div>
+              <button className='relative bg-white rounded-l-lg top-[5.5px] p-[5.5px]' onClick={handleEmojiShow}>
+                <FaRegSmile style={{ fontSize: "40px", padding: "5px" }} />
+              </button>
+            </div>
           <form id="message-form" className="flex items-center" onSubmit={handleSubmit}>
             <input
+              ref={inputRef}
               name="message"
               placeholder="Message"
-              className="rounded-lg"
+              className="rounded-r-lg outline-none"
               value={inputMessage}
               onChange={handleTyping}
               required
