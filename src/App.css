@@ -167,3 +167,10 @@ circle:nth-child(3) {
   margin-left: 5px;
   /* Add some spacing between the circle and the username */
 }
+
+.swal2-popup{
+  cursor: auto;
+}
+.swal2-confirm,.swal2-cancel{
+  cursor: pointer !important;
+}

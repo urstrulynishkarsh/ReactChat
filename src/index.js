@@ -8,7 +8,6 @@ import { Toaster } from "react-hot-toast";
 import Loader from "./Components/Loader";
 import { DarkModeToggle } from "dark-mode-toggle";
 
-
 const RootComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,22 +29,20 @@ const RootComponent = () => {
     }
   }, []);
 
- 
   return (
-    <React.StrictMode>
+    <>
       {isLoading ? (
-        <div >
-        <Loader/> 
+        <div>
+          <Loader />
         </div>
       ) : (
-      
-          <BrowserRouter>
-            <App />
-            <Toaster />
-            <ToastContainer />
-          </BrowserRouter>
+        <BrowserRouter>
+          <App />
+          <Toaster />
+          <ToastContainer />
+        </BrowserRouter>
       )}
-    </React.StrictMode>
+    </>
   );
 };
 
