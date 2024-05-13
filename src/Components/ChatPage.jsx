@@ -279,9 +279,36 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         className=" flex  flex-col brosize  max-h-screen"
         style={{ flexGrow: 1 }}
       >
+        <div className="right-8 absolute top-3 ">
+          <div className=" flex">
+            <button className="mr-4 sm:hidden" onClick={toggleMenu}>
+              {isMenuOpen ? (
+                /* If menu is open, display close icon */
+                <AiOutlineClose
+                  className="w-10    rounded-md bg-headText py-[2px] transition-all duration-300"
+                  fontSize={50}
+                  fill="#AFB2BF"
+                />
+              ) : (
+                /* If menu is closed, display menu icon */
+                <AiOutlineMenu
+                  className="w-10  rounded-md bg-headText py-[2px] transition-all duration-300"
+                  fontSize={50}
+                  fill="#AFB2BF"
+                />
+              )}
+            </button>
+            <button
+              onClick={handleDisconnectConfirmation}
+              className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+            >
+              Disconnect
+            </button>
+          </div>
+        </div>
         <div
           id="messages"
-          className=" overflow-y-auto "
+          className=" overflow-y-auto mt-[80px]"
           ref={messagesContainerRef}
           style={{
             flexGrow: 1,
@@ -289,40 +316,13 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             overflowAnchor: "bottom",
           }}
         >
-          <div className="right-8 absolute top-3 ">
-            <div className=" flex">
-              <button className="mr-4 sm:hidden" onClick={toggleMenu}>
-                {isMenuOpen ? (
-                  /* If menu is open, display close icon */
-                  <AiOutlineClose
-                    className="w-10    rounded-md bg-headText py-[2px] transition-all duration-300"
-                    fontSize={50}
-                    fill="#AFB2BF"
-                  />
-                ) : (
-                  /* If menu is closed, display menu icon */
-                  <AiOutlineMenu
-                    className="w-10  rounded-md bg-headText py-[2px] transition-all duration-300"
-                    fontSize={50}
-                    fill="#AFB2BF"
-                  />
-                )}
-              </button>
-              <button
-                onClick={handleDisconnectConfirmation}
-                className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
-              >
-                Disconnect
-              </button>
-            </div>
-          </div>
-
           {messages.map((msg, index) =>
             msg.url ? (
               <LocationTemplate
                 darkMode={darkMode}
                 setDarkMode={setDarkMode}
                 key={index}
+                currentuser={username}
                 username={msg.username}
                 createdAt={msg.createdAt}
                 url={msg.url}
@@ -332,6 +332,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 darkMode={darkMode}
                 setDarkMode={setDarkMode}
                 key={index}
+                currentuser={username}
                 username={msg.username}
                 createdAt={msg.createdAt}
                 message={msg.message}
