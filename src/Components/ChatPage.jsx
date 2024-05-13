@@ -26,7 +26,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
-
+  const [isSmallScr,setSmallScr] = useState(false);
 
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -36,6 +36,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  
 
   // Options
   // this will work only if there is ? mark in url 
@@ -74,6 +75,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   // }, []);
 
   useEffect(() => {
+    console.log(username.toLowerCase());
+
     socket.on('message', (message) => {
       setMessages((prevMessages) => [
         ...prevMessages,
@@ -112,6 +115,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       socket.off('locationMessage');
       socket.off('roomData');
     };
+
   }, []);
 
 
@@ -214,37 +218,34 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </ul>
       </div>
       <div className=" flex  flex-col brosize  max-h-screen" style={{ flexGrow: 1 }}>
-        <div id="messages" className=" overflow-y-auto " ref={messagesContainerRef} style={{ flexGrow: 1, padding: '12px 24px 0 24px', overflowAnchor: 'bottom' }}>
-          <div className='right-8 absolute top-3 '>
-            <div className=' flex'>
-              <button className="mr-4 sm:hidden" onClick={toggleMenu}>
-                {isMenuOpen ? (
-                  /* If menu is open, display close icon */
-                  <AiOutlineClose className="w-10    rounded-md bg-headText py-[2px] transition-all duration-300" fontSize={50} fill="#AFB2BF" />
-                ) : (
-                  /* If menu is closed, display menu icon */
-                  <AiOutlineMenu className="w-10  rounded-md bg-headText py-[2px] transition-all duration-300" fontSize={50} fill="#AFB2BF" />
-                )}
-              </button>
-              <button
-                onClick={handleDisconnectConfirmation}
-                className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
-              >
-                Disconnect
-              </button>
-            </div>
-
+        <div className='right-8 absolute top-3 '>
+          <div className=' flex'>
+            <button className="mr-4 sm:hidden" onClick={toggleMenu}>
+              {isMenuOpen ? (
+                /* If menu is open, display close icon */
+                <AiOutlineClose className="w-10    rounded-md bg-headText py-[2px] transition-all duration-300" fontSize={50} fill="#AFB2BF" />
+              ) : (
+                /* If menu is closed, display menu icon */
+                <AiOutlineMenu className="w-10  rounded-md bg-headText py-[2px] transition-all duration-300" fontSize={50} fill="#AFB2BF" />
+              )}
+            </button>
+            <button
+              onClick={handleDisconnectConfirmation}
+              className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+            >
+              Disconnect
+            </button>
           </div>
 
+        </div>
+        <div id="messages" className=" overflow-y-auto mt-[80px] " ref={messagesContainerRef} style={{ flexGrow: 1, padding: '12px 24px 0 24px', overflowAnchor: 'bottom' }}>
           {messages.map((msg, index) => (
             msg.url ? (
               <LocationTemplate darkMode={darkMode} setDarkMode={setDarkMode} key={index} username={msg.username} createdAt={msg.createdAt} url={msg.url} />
             ) : (
-              <MessageTemplate darkMode={darkMode} setDarkMode={setDarkMode} key={index} username={msg.username} createdAt={msg.createdAt} message={msg.message} />
+              <MessageTemplate darkMode={darkMode} setDarkMode={setDarkMode} key={index} username={msg.username} createdAt={msg.createdAt} message={msg.message} currentuser={username} />
             )
           ))}
-
-
         </div>
 
         {typingUsers.length > 0 && (
@@ -286,24 +287,24 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             onClick={handleSendLocation}
             className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
           >
-            
-                Send location
-                <svg
-                  stroke="currentColor"
-                  fill="none"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  height="1em"
-                  width="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <desc></desc>
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
-                  <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
-                </svg>
+
+            Send location
+            <svg
+              stroke="currentColor"
+              fill="none"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <desc></desc>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+              <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
+            </svg>
           </button>
 
 

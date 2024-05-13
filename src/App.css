@@ -85,8 +85,17 @@ circle:nth-child(3) {
   width: 350px;
   margin-bottom: 16px;
   border-radius: 0px 10px 10px 10px;
-  background-color: #8fccfe;
+  background-color: #a1adfe;
   padding: 8px;
+}
+
+.messageUser {
+  width: 350px;
+  margin-bottom: 16px;
+  border-radius: 10px 0px 10px 10px;
+  background-color: #a1adfe;
+  padding: 8px;
+  margin-left: auto;
 }
 
 .message__name {
@@ -116,26 +125,45 @@ circle:nth-child(3) {
 
 @media (max-width: 550px) {
   .message {
-    width: 42%;
+    width: 48%;
   }
-  .message__text{
+
+  .messageUser {
+    width: 48%;
+  }
+
+  .message__text {
     width: 100%;
   }
 }
 
-  .message a {
-    color: #0070CC;
+@media (max-width: 750px) {
+  .message {
+    width: 200px;
   }
 
-  .hello {
-    display: inline-block;
-    width: 10px;
-    /* Set the desired size of the circle */
-    height: 10px;
-    /* Set the desired size of the circle */
-    border-radius: 50%;
-    background-color: #2ecc71;
-    /* Set the desired green color */
-    margin-left: 5px;
-    /* Add some spacing between the circle and the username */
+  .messageUser {
+    width: 200px;
   }
+
+  .message__text {
+    width: 200px;
+  }
+}
+
+.message a {
+  color: #0070CC;
+}
+
+.hello {
+  display: inline-block;
+  width: 10px;
+  /* Set the desired size of the circle */
+  height: 10px;
+  /* Set the desired size of the circle */
+  border-radius: 50%;
+  background-color: #2ecc71;
+  /* Set the desired green color */
+  margin-left: 5px;
+  /* Add some spacing between the circle and the username */
+}
