@@ -327,7 +327,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               </button>
               <button
                 onClick={handleDisconnectConfirmation}
-                className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+                className="focus:outline-none relative focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-[#6674cc] hover:bg-[#5f6d86] text-[#fff] border border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem] transform transition duration-300 ease-in-out hover:scale-105"
+
               >
                 Disconnect
               </button>
@@ -373,7 +374,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             {!micHide && (<FaMicrophone size={40} className={`m-2 mr-3 ${darkMode ? 'text-white' : 'text-pure-greys-600'}`} onClick={startListening} />)}
             <button
               type="submit"
-              className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+              className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc]  hover:bg-[#5f6d86] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem] hover:scale-105"
             >
               Send
               <svg
@@ -397,7 +398,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <button
             id="send-location"
             onClick={handleSendLocation}
-            className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+            className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc]  hover:bg-[#5f6d86] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem] hover:scale-105"
           >
             Send location
             <svg
