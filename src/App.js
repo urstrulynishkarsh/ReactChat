@@ -29,7 +29,7 @@ function App() {
   }
 
   return (
-    <div className={`w-screen h-[100vh] ${darkMode ? 'bg-[#121212]' : ''} bg-[#ededed] flex flex-col font-inter`}>
+    <div className={`w-screen h-[100vh] ${darkMode ? 'bg-black' : ''} bg-[#ededed] flex flex-col font-inter`}>
 
       <div className="App">
         <AnimatedCursor
@@ -59,7 +59,6 @@ function App() {
       <button className="flex mr-[-160px]  absolute xl:top-2 xl:right-48 top-16 right-5 sm:top-2 sm:right-48 md:top-2 md:right-48  lg:top-2 lg:right-48 z-40  " onClick={hanldeDarkMode}>
         {darkMode ? <MdModeNight className="xl:text-7xl lg:text-7xl md:text-7xl sm:text-7xl text-6xl  text-white" /> : <WiDaySunny className=" xl:text-7xl lg:text-7xl md:text-7xl sm:text-7xl text-6xl" />}
       </button>
-
       <UseAuthProvider>
         <Routes>
           <Route path="/" element={<HomePage />} />
