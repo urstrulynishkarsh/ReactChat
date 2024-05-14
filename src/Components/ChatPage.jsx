@@ -33,6 +33,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState("");
   const [users, setUsers] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResult, setSearchResult] = useState([]);
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
@@ -51,6 +53,11 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+  const searchUser = (searchTerm) => {
+    const result = users.filter(user => user.username.toLowerCase().includes(searchTerm.toLowerCase()));
+    setSearchResult(result);
+  }
 
   // Options
   // this will work only if there is ? mark in url
@@ -118,6 +125,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
 
     socket.on("roomData", ({ room, users }) => {
       setUsers(users);
+      searchUser(searchTerm);
       console.log("my Users: ", users);
       console.log("room", room);
     });
@@ -275,22 +283,20 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
 
   return (
     <div className="flex h-[100vh]">
-      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
-        <h2 className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between" onClick={() => { setShowShareBox(true) }}>
+      <div className={`fixed w-[250px] h-screen bg-[#6674cc] text-white flex flex-col md:static transition-all ease-in-out duration-200 ${isMenuOpen ? "left-0" : "left-[-250px]"}`}>
+        <div className="font-normal text-xl bg-[#eae4f6] text-black p-3 flex items-center justify-between" onClick={() => { setShowShareBox(true) }}>
           ROOM NO: {room}
           <FaShare className="text-[#6674cc] ml-2" size={30} />
-        </h2>
-        <h3
-          className="font-[500px] text-[18px] mb-[4px]"
-          style={{ padding: "12px 24px 0 24px" }}
-        >
-          Users
-        </h3>
-        <ul className="users">
-          {users.map((user, index) => (
-            <li key={index} className="ml-2">
+        </div>
+        {/* <h3 className="font-[500px] text-xl mb-[4px] text-center">Users</h3> */}
+        <div className="m-2 border-[#808080]">
+          <input type="text" value={searchTerm} className="w-full outline-none text-white px-2 py-1 rounded-lg bg-[#828ee0] font-thin caret-[red]" onChange={(e) => { setSearchTerm(e.target.value); searchUser(e.target.value); }} placeholder="Search User" spellCheck="false" />
+        </div>
+        <ul className="users flex-1 overflow-y-scroll p-[2px]">
+          {searchResult.map((user) => (
+            <li key={user.username} className="my-1 p-3 bg-[#5362c4] rounded-md">
               {user.username}
-              <span className="hello"></span>
+              {/* <span className="hello"></span> */}
             </li>
           ))}
         </ul>
@@ -423,9 +429,9 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </div>
       </div>
 
-      {isMenuOpen && (
+      {/* {isMenuOpen && (
         <MobileMenu users={users} room={room} darkMode={darkMode} />
-      )}
+      )} */}
       {showShareBox && (<ShareBox showShareBox={setShowShareBox} link={`https://reactchatio.vercel.app?room=${room}`} />)}
     </div>
   );

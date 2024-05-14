@@ -124,3 +124,7 @@ circle:nth-child(3) {
 .swal2-confirm,.swal2-cancel{
   cursor: pointer !important;
 }
+
+.users::-webkit-scrollbar {
+  display: none;
+}
