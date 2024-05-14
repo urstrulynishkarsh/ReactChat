@@ -132,6 +132,9 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = e.target.elements.message.value;
+    if(message.trim()===""){
+      return;
+    }
     socket.emit("sendMessage", message, (error) => {
       if (error) {
         console.log(error);
@@ -146,7 +149,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const handleTyping = (e) => {
     setInputMessage(e.target.value);
     const message = e.target.value.trim();
-
+    
     if (!iamTyping) {
       socket.emit("START_TYPING");
       setIamTyping(true);
