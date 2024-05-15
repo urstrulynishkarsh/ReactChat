@@ -49,15 +49,21 @@ git clone https://github.com/urstrulynishkarsh/ReactChat.git
 cd ReactChat
 ```
 
+### 3. Copy Environment Variables
+
+```bash
+cp .env.example .env
+```
+
 ## Using Local Server
 
-### 3. Install Required Packages
+### 4. Install Required Packages
 
 ```bash
 npm install
 ```
 
-### 4. Start the Development Server
+### 5. Start the Development Server
 
 ```bash
 npm run dev
@@ -65,7 +71,7 @@ npm run dev
 
 ## Using Docker
 
-### 3. Start the Container
+### 4. Start the Container
 
 ```bash
 docker-compose -f docker-compose.dev.yaml up
