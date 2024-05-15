@@ -124,9 +124,3 @@ circle:nth-child(3) {
 .swal2-confirm,.swal2-cancel{
   cursor: pointer !important;
 }
-@media screen and (max-width: 840px) and (max-height: 903px) {
-  .darkmode
-  {
-    font-size: rem; /* Adjust this value to your liking */
-  }
-}

@@ -363,8 +363,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <p className="pl-4 text-[#6674cc] font-bold">{userTyping.data}</p>
         )}
 
-        <div className="compose">
-          <form id="message-form" className="flex items-center" onSubmit={handleSubmit}>
+        <div className="compose flex flex-col sm:flex-row w-full">
+          <form id="message-form" className="flex-grow sm:flex-grow-0 flex items-center" onSubmit={handleSubmit}>
             <input
               name="message"
               placeholder="Message"
@@ -376,7 +376,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             {!micHide && (<FaMicrophone size={40} className={`m-2 mr-3 ${darkMode ? 'text-white' : 'text-pure-greys-600'}`} onClick={startListening} />)}
             <button
               type="submit"
-              className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+              className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex flex-grow items-center gap-3 text-lg lg:h-[4rem]"
             >
               Send
               <svg
@@ -400,7 +400,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <button
             id="send-location"
             onClick={handleSendLocation}
-            className="min-sm:font-size 1rem focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+            className="w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6  h-12 py-2 flex items-center justify-center gap-3 text-lg lg:h-[4rem]"
           >
             Send location
             <svg
