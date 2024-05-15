@@ -3,7 +3,7 @@ import "./App.css";
 import HomePage from "./Components/HomePage";
 import ChatPage from "./Components/ChatPage";
 import AnimatedCursor from "react-animated-cursor";
-import { DarkModeToggle } from "dark-mode-toggle";
+
 import { useEffect, useState } from "react";
 import { WiDaySunny } from "react-icons/wi";
 import { MdModeNight } from "react-icons/md";
