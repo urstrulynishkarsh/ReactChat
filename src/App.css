@@ -1,35 +1,75 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Anonymous+Pro");
 
+:root {
+  --color-primary: #6f6af8;
 
+  --color-white: #fff;
 
-*{
+  --color-red: rgb(255, 63, 63);
+
+  --color-gray-100: hsl(220, 20%, 10%, 5%);
+  --color-gray-200: hsl(220, 20%, 10%, 10%);
+
+  --color-gray-300: hsl(220, 20%, 10%, 25%);
+  --color-gray-500: hsl(220, 20%, 10%, 50%);
+
+  --color-gray-700: #252542;
+  --color-gray-900: #0c0c22;
+
+  /* --color-bg: rgba(230, 230, 235, 0.648); */
+  /* --color-bg: rgb(255 255 255 / 89%); */
+
+  --color-bg: rgb(249 249 249 / 93%);
+
+  --transition: all 300ms ease;
+
+  --container-width-1g: 84%;
+
+  --container-width-md: 92%;
+
+  --form-width: 50%;
+
+  --radius-1: 0.3rem;
+
+  --radius-2: 0.6rem;
+
+  --radius-3: 1rem;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-
+  font-family: "Poppins", sans-serif;
+  font-size: 1.6;
 }
 
-
-
-body{
+body {
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;
   margin: 0;
+  font-family: "Poppins", sans-serif;
+  font-size: 1.6;
 }
 
 
 
 .cardname {
-    min-width: 0;
-    overflow-wrap: break-word;
+  min-width: 0;
+  overflow-wrap: break-word;
 }
 
-
-.container{
-  display: 'flex';
-  justify-content: 'center';
-  align-items: 'center';
-  height: '100vh';
+.container {
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  height: "100vh";
   margin-left: 48;
 }
 circle {
@@ -52,7 +92,6 @@ circle:nth-child(3) {
     transform: rotate(360deg);
   }
 }
-
 
 .compose {
   display: flex;
@@ -79,11 +118,8 @@ circle:nth-child(3) {
   font-size: 14px;
 }
 
-
-
-
 .message {
-  margin-bottom: 16px;   
+  margin-bottom: 16px;
 }
 
 .message__name {
@@ -96,7 +132,7 @@ circle:nth-child(3) {
   color: #777;
   font-size: 14px;
 }
-.brosize{
+.brosize {
   min-height: 85vh;
   /* min-width: 100vw; */
 }
@@ -105,9 +141,8 @@ circle:nth-child(3) {
   overflow-y: scroll;
 } */
 
-
 .message a {
-  color: #0070CC;
+  color: #0070cc;
 }
 
 .hello {
@@ -118,9 +153,10 @@ circle:nth-child(3) {
   background-color: #2ecc71; /* Set the desired green color */
   margin-left: 5px; /* Add some spacing between the circle and the username */
 }
-.swal2-popup{
+.swal2-popup {
   cursor: auto;
 }
-.swal2-confirm,.swal2-cancel{
+.swal2-confirm,
+.swal2-cancel {
   cursor: pointer !important;
 }
