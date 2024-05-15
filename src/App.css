@@ -74,6 +74,17 @@ circle:nth-child(3) {
   margin: 0 16px 0 0;
   flex-grow: 1;
 }
+.backgrou{
+  
+  background-image: url("./assets/bg23.jpg");
+  object-fit: cover;
+  background-size: cover;
+ 
+   backdrop-filter: blur(10px);
+ 
+   background-color: rgba(255, 255, 255, 0.5);
+
+}
 
 .compose button {
   font-size: 14px;
