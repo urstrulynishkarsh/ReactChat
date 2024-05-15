@@ -39,13 +39,13 @@ const HomePage = () => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
-      <div className="centered-form__box">
-        <h1 className="text-[2rem]">Join</h1>
-        <form onSubmit={handleSubmit}>
-          <label>Display name</label>
+    <div className="w-screen h-screen flex justify-center items-center ">
+      <div className="w-[400px] h-[400px] bg-white p-6 rounded-md shadow-lg flex flex-col items-center">
+        <h1 className="text-2xl mb-6">Join</h1>
+        <form className="w-full" onSubmit={handleSubmit}>
+          <label className="block mb-2 font-medium">Display name</label>
           <input
-            className=" w-[100%]  p-[12px] outline-none border-1 border-solid border-gray-300"
+            className="w-full p-3 mb-4 border border-gray-300 rounded outline-none"
             type="text"
             name="username"
             placeholder="Display name"
@@ -53,9 +53,9 @@ const HomePage = () => {
             onChange={handleChange}
             required
           />
-          <label>Room</label>
+          <label className="block mb-2 font-medium">Room</label>
           <input
-            className="mb-[16px] w-[100%]  p-[12px] outline-none border-1 border-solid border-gray-300"
+            className="w-full p-3 mb-6 border border-gray-300 rounded outline-none"
             type="text"
             name="room"
             placeholder="Room"
@@ -63,7 +63,7 @@ const HomePage = () => {
             onChange={handleChange}
             required
           />
-          <button className="w-[100%] cursor-pointer p-[12px] bg-[#7C5CBF] border-none font-[16px]  text-white text-base transition duration-300 ease-in-out hover:bg-[#6b47b8] disabled:cursor-default disabled:bg-[#7c5cbf94] ">
+          <button className="w-full p-3 bg-[#18454E] text-white rounded-full hover:bg-[#28717F] disabled:bg-[#7c5cbf94]">
             Join
           </button>
         </form>
