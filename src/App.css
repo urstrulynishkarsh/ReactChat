@@ -76,7 +76,8 @@ circle:nth-child(3) {
 }
 .backgrou{
   
-  background-image: url("./assets/bg23.jpg");
+  /* background-image: url("./assets/bg23.jpg"); */
+   background-image: url("https://picsum.photos/2000/900");
   object-fit: cover;
   background-size: cover;
  
