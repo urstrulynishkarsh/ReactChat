@@ -91,7 +91,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     });
   }, []);
   useEffect(() => {
-    socket.on("message", (message) => {
+    socket.on("message", (message)  => {
       setMessages((prevMessages) => [
         ...prevMessages,
         {
@@ -228,7 +228,48 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       navigate("/");
     };
   };
+  useEffect(() => {
+    const socket = io('http://localhost:3000'); // Replace with your server URL
 
+    socket.on("fileMessage", (data) => {
+      const { username, fileUrl, createdAt } = data;
+      // Create a new message element
+      const messageElement = document.createElement("div");
+      messageElement.innerHTML = `
+        <p>${username} at ${new Date(createdAt).toLocaleTimeString()}:</p>
+        <img src="${fileUrl}" alt="Sent file" />
+      `;
+      // Append the new message to the message part
+      const messagePart = document.getElementById("messagePart"); // Replace with the actual id of your message part
+      messagePart.appendChild(messageElement);
+    });
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
+
+  const handleSendFile = (getUser, socket) => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
+    input.onchange = (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const base64Data = e.target.result;
+        const filename = file.name;
+        const user = getUser(socket.id); // get user by socket id
+        if (user) {
+          const userId = user.id;
+          socket.emit("sendFile", { base64Data, filename, userId });
+        } else {
+          console.error('User not found');
+        }
+      };
+      reader.readAsDataURL(file);
+    };
+    input.click();
+  };
   function handleDisconnectConfirmation() {
     Swal.fire({
       title: "Disconnect Chat",
@@ -397,6 +438,34 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               </svg>
             </button>
           </form>
+          <button
+            id="send-file"
+            onClick={handleSendFile}
+            className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6  h-12 py-2 flex items-center justify-center gap-3 text-lg lg:h-[4rem]"
+          >
+            <svg
+              stroke="currentColor"
+              fill="none"
+              strokeWidth="2"
+              viewBox="0 0 24 24"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <desc></desc>
+              <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+              <path d="M14 3v4a1 1 0 0 0 1 1h4"></path>
+              <path d="M17 11l-3 3l-3 3"></path>
+              <path d="M14 3v4a1 1 0 0 1 -1 1h-4"></path>
+              <path d="M17 11l-3 -3l-3 -3"></path>
+            </svg>
+            Send file
+          </button>
+         
+          
+          
           <button
             id="send-location"
             onClick={handleSendLocation}
