@@ -132,7 +132,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = e.target.elements.message.value;
-    if(message.trim()===""){
+    if (message.trim() === "") {
       return;
     }
     socket.emit("sendMessage", message, (error) => {
@@ -149,7 +149,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const handleTyping = (e) => {
     setInputMessage(e.target.value);
     const message = e.target.value.trim();
-    
+
     if (!iamTyping) {
       socket.emit("START_TYPING");
       setIamTyping(true);
@@ -241,7 +241,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
-        
+
         } else {
           console.log("No active chat connection to disconnect.");
         }
@@ -284,9 +284,10 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </h3>
         <ul className="users">
           {users.map((user, index) => (
-            <li key={index} className="ml-2">
+            <li key={index} className="ml-2 overflow-hidden whitespace-nowrap text-ellipsis">
+              <span className="hello mr-2"></span>
               {user.username}
-              <span className="hello"></span>
+
             </li>
           ))}
         </ul>
