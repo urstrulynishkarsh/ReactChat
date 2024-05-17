@@ -52,22 +52,12 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  // Options
-  // this will work only if there is ? mark in url
+
   const { username, room } = Qs.parse(location.search, {
     ignoreQueryPrefix: true,
   });
 
-  // useEffect(() => {
-  //   socket.on('disconnect', () => {
-  //     console.log('Disconnected from the server');
-  //     navigate('/');
-  //   });
 
-  //   return () => {
-  //     socket.off('disconnect');
-  //   };
-  // }, []);
 
   useEffect(() => {
     socket.emit("join", { username, room }, (data) => {
@@ -222,11 +212,11 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     };
   }, [socket]);
 
-  window.onbeforeunload = function () {
-    return () => {
-      "Do you really want to leave?";
-      navigate("/");
-    };
+  window.onbeforeunload = function (event) {
+    event.preventDefault();
+    const confirmationMessage = "Do you really want to leave?";
+  event.returnValue = confirmationMessage;
+  return confirmationMessage;
   };
   useEffect(() => {
     const socket = io('http://localhost:3000'); // Replace with your server URL
