@@ -222,12 +222,10 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     };
   }, [socket]);
 
-  window.onbeforeunload = function () {
-    return () => {
-      "Do you really want to leave?";
-      navigate("/");
-    };
-  };
+  // window.onbeforeunload = function () {
+  //   // This string won't actually be shown in modern browsers, but returning it triggers the confirmation dialog
+  //   return "Do you really want to leave?";
+  // };
 
   function handleDisconnectConfirmation() {
     Swal.fire({
@@ -243,6 +241,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
+        
         } else {
           console.log("No active chat connection to disconnect.");
         }
@@ -250,11 +249,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     });
   }
 
-  window.onpopstate = function () {
-    console.log("hello");
 
-    console.log("new data");
-  };
+
 
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
