@@ -26,10 +26,17 @@ const HomePage = () => {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    
+        const value = e.target.value[e.target.value.length-1]
+        
+        if (/[0-9]/.test(value)||value==undefined) {
+          setFormData({
+            ...formData,
+            [e.target.name]: e.target.value,
+          });
+        }
+      
+    
   };
 
   const handleSubmit = (e) => {
