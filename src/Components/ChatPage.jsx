@@ -212,7 +212,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     };
   }, [socket]);
 
-  window.onbeforeunload = function (event) {
+ window.onbeforeunload = function (event) {
     event.preventDefault();
     const confirmationMessage = "Do you really want to leave?";
   event.returnValue = confirmationMessage;
@@ -274,6 +274,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
+        
         } else {
           console.log("No active chat connection to disconnect.");
         }
@@ -281,11 +282,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     });
   }
 
-  window.onpopstate = function () {
-    console.log("hello");
 
-    console.log("new data");
-  };
+
 
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
