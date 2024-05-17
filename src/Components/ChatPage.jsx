@@ -82,7 +82,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           willClose: () => {
             navigate("/"); // Redirect to home page
           },
-        });
+        }
+      );
         // console.log("new part")
       } else {
         setHasError(false);
