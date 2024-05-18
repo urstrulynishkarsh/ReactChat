@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "boring-avatars": "^1.10.2",
     "browser-router": "^0.2.0",
     "concurrently": "^8.2.2",
     "dark-mode-toggle": "^0.15.0",

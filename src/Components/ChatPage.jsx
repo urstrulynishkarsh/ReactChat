@@ -18,6 +18,7 @@ import {
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
+import Avatar from "boring-avatars";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -294,10 +295,35 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </h3>
         <ul className="users">
           {users.map((user, index) => (
-            <li key={index} className="ml-2">
-              {user.username}
-              <span className="hello"></span>
-            </li>
+            <div
+              key={index}
+              className="ml-2"
+              style={{
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                gap: "5px",
+                margin:'10px',
+              }}
+            >
+              <Avatar
+                size={40}
+                name={user.username}
+                variant="marble"
+                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+              />
+              <div>
+                {user.username}
+                <div
+                  style={{
+                    color: "#2ecc71",
+                   fontWeight:'800'
+                  }}
+                >
+                  Online
+                </div>
+              </div>
+            </div>
           ))}
         </ul>
       </div>
