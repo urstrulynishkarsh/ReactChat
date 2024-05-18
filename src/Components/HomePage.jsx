@@ -87,7 +87,7 @@ const HomePage = ({darkMode}) => {
             onChange={handleChange}
             required
           />
-          <button type="submit" className="w-[100%] cursor-pointer p-[28px] bg-[#FF713E] border-none text-[2rem] text-white text-base transition duration-300 ease-in-out hover:bg-[#e45622] disabled:cursor-default disabled:bg-[#7c5cbf94] rounded-lg">
+          <button type="submit" className="w-[100%] cursor-pointer p-[28px] bg-[#FF713E] border-none  text-white text-2xl transition duration-300 ease-in-out hover:bg-[#e45622] disabled:cursor-default disabled:bg-[#7c5cbf94] rounded-lg">
             Join
           </button>
         </form>
