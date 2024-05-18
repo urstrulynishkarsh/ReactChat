@@ -8,6 +8,43 @@ background:transparent;
     /* height: 35vw; */
 
 
+     @media (max-width: 850px) {
+        .form{
+            width: 35vw;
+            height: 60vw;
+           
+        }
+      }
+
+    @media screen and (max-width:450px){
+        .img {
+            width: 90% !important; 
+            height: auto; 
+            margin-top: 30px;
+            
+        }
+        .form{
+            
+            width: 100% !important;
+            
+        }
+        .join{
+           
+           margin-left: 50vw;
+           
+        }
+       
+       .input{
+     
+        margin-left: 25vw;
+ }
+      
+       .image-class {
+        margin-bottom: -15rem;
+      }
+       
+    }
+
 
 
 
