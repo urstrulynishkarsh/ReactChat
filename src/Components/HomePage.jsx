@@ -42,10 +42,7 @@ const HomePage = () => {
   };
 
   return (
-
-
     <div className="w-screen h-screen flex justify-center items-center">
-         
       <div className="centered-form__box">
         <h1 className="text-[2rem]">Join</h1>
         <form onSubmit={handleSubmit}>
@@ -74,6 +71,7 @@ const HomePage = () => {
           </button>
         </form>
       </div>
+
     </div>
     
   );
