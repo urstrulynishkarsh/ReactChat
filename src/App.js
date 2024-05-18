@@ -29,7 +29,7 @@ function App() {
   }
   
   return (
-    <div className={`w-screen h-[100vh] ${darkMode ? 'bg-black' : ''}  bg-[#ededed] flex  flex-col font-inter`}>
+    <div className={`w-screen h-[100vh] ${darkMode ? 'bg-[#263238]' : ''}  bg-white flex  flex-col font-inter`}>
     
       <div className="App">
       <AnimatedCursor 
@@ -61,7 +61,7 @@ function App() {
       </button>
         <UseAuthProvider>
           <Routes>
-            <Route path="/" element={<HomePage/>}/>
+            <Route path="/" element={<HomePage darkMode={darkMode}/>}/>
             <Route path="chat" element={
                 <PrivateRoute>
                     <ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />
