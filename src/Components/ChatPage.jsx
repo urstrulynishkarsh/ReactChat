@@ -244,8 +244,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         if (socket) {
-          localStorage.clear("username");
-          localStorage.clear("room");
+          // localStorage.clear("username");
+          // localStorage.clear("room");
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
