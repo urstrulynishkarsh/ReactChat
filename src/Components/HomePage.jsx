@@ -7,6 +7,7 @@ import { useAuth } from "../Context/UserAuthContext";
 
 import q from "../assets/light_svg.svg"
 import s from "../assets/svg.svg"
+import { Tilt } from "react-tilt";
 
 const HomePage = ({darkMode}) => {
 
@@ -61,9 +62,9 @@ const HomePage = ({darkMode}) => {
   return (
 
 
-  <div className="w-screen h-screen flex relative ">
-    <div className="w-1/2  h-full flex justify-center items-center">
-      <div className="centered-form__box  ">
+  <div className="w-screen h-screen flex  flex-col-reverse xl:flex-row lg:flex-row md:flex-row sm:flex-row   relative ">
+    <div className="w-1/2   h-full flex  justify-center items-center">
+      <div className="xl:h-[35vw] xl:w-[35vw] lg:h-[35vw] lg:w-[35vw]   p-[3px] bg-transparent">
         <h1 className={`text-[2.5rem] flex justify-center items-center mb-12  font-semibold ${darkMode ? 'text-white':'text-customgrey'}`}>JOIN ROOM</h1>
         <form onSubmit={handleSubmit} className="w-full h-full">
           <label className={`text-[1.1rem] font-semibold ${darkMode ? 'text-white': 'text-black'} `}>Display Name</label>
@@ -95,9 +96,16 @@ const HomePage = ({darkMode}) => {
       </div>
       </div>
 
+     
+    
+
     <div className="w-1/2 flex justify-center items-center " style={{paddingRight: '3vw'}}>
+    <Tilt options={defaultOptions} >
+   
    <img src={darkMode ? s :q } alt="svgimage not found" style={{width: '100%', height: '100%', objectFit: 'contain'}}/>
+   </Tilt >
    </div>
+   
   </div>
 );
   
