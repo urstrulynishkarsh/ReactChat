@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ChatApp</title>
-  <!-- <link rel="icon"
+  <head>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ChatApp</title>
+    <!-- <link rel="icon"
     href="https://github-production-user-asset-6210df.s3.amazonaws.com/135215478/329772301-8b4b671e-ef32-4fe6-af8b-23202bd428c7.svg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAVCODYLSA53PQK4ZA%2F20240511%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20240511T102034Z&X-Amz-Expires=300&X-Amz-Signature=d16d9b686150231e033af2010e5a23e816dbf32b89a24b7541452ea4d4a91507&X-Amz-SignedHeaders=host&actor_id=0&key_id=0&repo_id=757242014" /> -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
-  <link rel="shortcut icon"
-    href="https://private-user-images.githubusercontent.com/135215478/329772301-8b4b671e-ef32-4fe6-af8b-23202bd428c7.svg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTU2MTAyNjIsIm5iZiI6MTcxNTYwOTk2MiwicGF0aCI6Ii8xMzUyMTU0NzgvMzI5NzcyMzAxLThiNGI2NzFlLWVmMzItNGZlNi1hZjhiLTIzMjAyYmQ0MjhjNy5zdmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDUxM1QxNDE5MjJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jZDY1ZTZhMzI5NzZhMmNiNTBmNzJkOGNlNjY3ZjI3YjZkMDM2ZDRhNzFiM2M5YjI5M2Q0OTBiNzE0MmExMzZlJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.z--QPEXaIPAh-omWzKy-20EmXGW5OZUieZf3ZsWQVk0"
-    type="image/x-icon">
-  <script>
-    window.onbeforeunload = function () {
-      return "Do you really want to leave?";
-    };
-  </script>
-</head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
+    <link
+      rel="shortcut icon"
+      href="https://private-user-images.githubusercontent.com/135215478/329772301-8b4b671e-ef32-4fe6-af8b-23202bd428c7.svg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTU2MTAyNjIsIm5iZiI6MTcxNTYwOTk2MiwicGF0aCI6Ii8xMzUyMTU0NzgvMzI5NzcyMzAxLThiNGI2NzFlLWVmMzItNGZlNi1hZjhiLTIzMjAyYmQ0MjhjNy5zdmc_WC1BbXotQWxnb3JpdGhtPUFXUzQtSE1BQy1TSEEyNTYmWC1BbXotQ3JlZGVudGlhbD1BS0lBVkNPRFlMU0E1M1BRSzRaQSUyRjIwMjQwNTEzJTJGdXMtZWFzdC0xJTJGczMlMkZhd3M0X3JlcXVlc3QmWC1BbXotRGF0ZT0yMDI0MDUxM1QxNDE5MjJaJlgtQW16LUV4cGlyZXM9MzAwJlgtQW16LVNpZ25hdHVyZT1jZDY1ZTZhMzI5NzZhMmNiNTBmNzJkOGNlNjY3ZjI3YjZkMDM2ZDRhNzFiM2M5YjI5M2Q0OTBiNzE0MmExMzZlJlgtQW16LVNpZ25lZEhlYWRlcnM9aG9zdCZhY3Rvcl9pZD0wJmtleV9pZD0wJnJlcG9faWQ9MCJ9.z--QPEXaIPAh-omWzKy-20EmXGW5OZUieZf3ZsWQVk0"
+      type="image/x-icon"
+    />
+  </head>
 
-<body>
-  <noscript>You need to enable JavaScript to run this app.</noscript>
-  <div id="root"></div>
-  <!--
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
 
@@ -32,9 +28,5 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-</body>
-
-
-
-
+  </body>
 </html>
