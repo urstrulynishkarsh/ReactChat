@@ -118,7 +118,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
 
     socket.on("roomData", ({ room, users }) => {
       setUsers(users);
-      console.log("my Users: ", users);
+      console.Table("my Users: ", users);
       console.log("room", room);
     });
 
