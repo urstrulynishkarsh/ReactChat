@@ -31,7 +31,7 @@ const addUser = ({ id, username, room }) => {
       user: {},
     };
   }
-  
+
   // push into the array
   const user = { id, username, room };
   users.push(user);

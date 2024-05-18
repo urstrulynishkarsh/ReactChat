@@ -2,15 +2,12 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
-
     fontFamily: {
       inter: ["Inter", "sans-serif"],
       "edu-sa": ["Edu SA Beginner", "cursive"],
       mono: ["Roboto Mono", "monospace"],
     },
     colors: {
-      
-      customgrey: "#455A64",
       white: "#fff",
       black: "#000",
       transparent: "#ffffff00",
@@ -132,7 +129,6 @@ module.exports = {
         maxContent: "1260px",
         maxContentTab: "650px"
       },
-   
     },
   },
   plugins: [],
