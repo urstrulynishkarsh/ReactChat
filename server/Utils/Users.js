@@ -3,7 +3,7 @@ const users = [];
 
 // add user into the users array
 const addUser = ({ id, username, room }) => {
-  // clean the data
+  // Clean the data
   username = username.trim().toLowerCase();
   room = room.trim().toLowerCase();
 
@@ -16,23 +16,26 @@ const addUser = ({ id, username, room }) => {
     };
   }
 
-  // check for existing User
+  // Check for existing user
+  const existingUser = users.find(
+    (user) => user.room === room && user.username === username
+  );
 
-  const existingUser = users?.find((user) => {
-    if (user?.room === room && user?.username === username) return true;
-    else return false;
-  });
-
-  // validate
   if (existingUser) {
-    return {
-      status: false,
-      error: "UserName is in Used",
-      user: {},
-    };
+    if (existingUser.id === id) {
+      // User is rejoining the same room
+      return { status: true, error: "", user: existingUser };
+    } else {
+      // Another user is trying to join with the same username
+      return {
+        status: false,
+        error: "Username is in use!",
+        user: {},
+      };
+    }
   }
-  
-  // push into the array
+
+  // If no conflicts, add the user to the room
   const user = { id, username, room };
   users.push(user);
   return { status: true, error: "", user };

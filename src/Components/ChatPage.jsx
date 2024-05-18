@@ -23,7 +23,7 @@ import { FaMicrophone, FaShare } from "react-icons/fa";
 
 // wss://reactchat-production-f378.up.railway.app/
 // dev mode http://localhost:5000
-const socket = io("wss://reactchat-production-f378.up.railway.app/", {
+const socket = io("http://localhost:4000", {
   transports: ["websocket"],
 });
 
@@ -86,6 +86,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           showConfirmButton: false,
           timer: 2000, // Adjust the timer as needed
           willClose: () => {
+            localStorage.clear("username");
+            localStorage.clear("room");
             navigate("/"); // Redirect to home page
           },
         });

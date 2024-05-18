@@ -48,7 +48,7 @@ io.use((socket, next) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("New WebSocket Connection");
+  console.log("New WebSocket Connection", socket.id);
 
   // method ,options,callback
   socket.on("join", (options, callback) => {
