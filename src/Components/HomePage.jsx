@@ -7,7 +7,7 @@ import { useAuth } from "../Context/UserAuthContext";
 
 import q from "../assets/light_svg.svg"
 import s from "../assets/svg.svg"
-import { Tilt } from "react-tilt";
+
 const HomePage = ({darkMode}) => {
 
   const socket = io("wss://reactchat-production-f378.up.railway.app/", {
@@ -41,7 +41,6 @@ const HomePage = ({darkMode}) => {
     setRoomDetail(formData.username)
     navigate(`chat?username=${formData.username}&room=${formData.room}`);
   };
-
   const defaultOptions = {
     reverse:        false,  // reverse the tilt direction
     max:            100,     // max tilt rotation (degrees)
@@ -53,6 +52,7 @@ const HomePage = ({darkMode}) => {
     reset:          true,    // If the tilt effect has to be reset on exit.
     easing:         "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
   }
+
 
   return (
 
@@ -87,16 +87,16 @@ const HomePage = ({darkMode}) => {
             Join
           </button>
         </form>
+       
       </div>
-      </Tilt>
-    </div>
+      </div>
 
     <div className="w-1/2 flex justify-center items-center " style={{paddingRight: '3vw'}}>
    <img src={darkMode ? s :q } alt="svgimage not found" style={{width: '100%', height: '100%', objectFit: 'contain'}}/>
-    </div>
-    </div>
-
-  );
+   </div>
+  </div>
+);
+  
 };
 
 export default HomePage;
