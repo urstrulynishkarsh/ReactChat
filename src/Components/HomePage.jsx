@@ -17,12 +17,12 @@ const HomePage = () => {
     room: "",
   });
 
-  const { setRoomDetail } = useAuth()
+  const { setRoomDetail } = useAuth();
 
   useEffect(() => {
     const { room } = Qs.parse(location.search, { ignoreQueryPrefix: true });
     if (room) {
-      setFormData({ ...formData, room })
+      setFormData({ ...formData, room });
     }
   }, []);
 
@@ -35,7 +35,9 @@ const HomePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setRoomDetail(formData.username)
+    localStorage.setItem("username", formData.username);
+    localStorage.setItem("room", formData.room);
+    setRoomDetail({ username: formData.username, room: formData.room });
     navigate(`chat?username=${formData.username}&room=${formData.room}`);
   };
 
