@@ -41,24 +41,11 @@ const HomePage = () => {
     navigate(`chat?username=${formData.username}&room=${formData.room}`);
   };
 
-
-  const defaultOptions = {
-    reverse:        false,  // reverse the tilt direction
-    max:            100,     // max tilt rotation (degrees)
-    perspective:    1000,   // Transform perspective, the lower the more extreme the tilt gets.
-    scale:          1.1,    // 2 = 200%, 1.5 = 150%, etc..
-    speed:          1000,   // Speed of the enter/exit transition
-    transition:     true,   // Set a transition on enter/exit.
-    axis:           null,   // What axis should be disabled. Can be X or Y.
-    reset:          true,    // If the tilt effect has to be reset on exit.
-    easing:         "cubic-bezier(.03,.98,.52,.99)",    // Easing on enter/exit.
-  }
-
   return (
 
 
     <div className="w-screen h-screen flex justify-center items-center">
-          <Tilt options={defaultOptions} >
+         
       <div className="centered-form__box">
         <h1 className="text-[2rem]">Join</h1>
         <form onSubmit={handleSubmit}>
@@ -87,7 +74,6 @@ const HomePage = () => {
           </button>
         </form>
       </div>
-      </Tilt>
     </div>
     
   );
