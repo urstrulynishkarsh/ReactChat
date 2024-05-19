@@ -128,12 +128,26 @@ module.exports = {
       },
     },
     extend: {
+
       maxWidth: {
         maxContent: "1260px",
         maxContentTab: "650px"
       },
-   
+      colors: {
+        'glass-grey': 'rgba(128, 128, 128, 0.1)',
+      },
+      backdropBlur: {
+        xs: '2px',
+        sm: '4px',
+        md: '8px',
+        lg: '12px',
+        xl: '16px',
+      },
+      boxShadow: {
+        glass: '0 4px 6px rgba(0, 0, 0, 0.1)',
+      },
     },
   },
+
   plugins: [],
 };
