@@ -86,6 +86,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           showConfirmButton: false,
           timer: 2000, // Adjust the timer as needed
           willClose: () => {
+            localStorage.clear("username");
+            localStorage.clear("room");
             navigate("/"); // Redirect to home page
           },
         });
