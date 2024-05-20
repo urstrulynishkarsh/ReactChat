@@ -77,7 +77,7 @@ const HomePage = ({ darkMode }) => {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className={`w-full p-4 border-2 rounded-lg ${darkMode ? "bg-gray-800 text-white" : "bg-white text-black"} focus:outline-none focus:border-black`}
+                className={`w-full p-4 border-2 rounded-lg ${darkMode ? "bg-gray-800 text-black" : "bg-white text-black"} focus:outline-none focus:border-black`}
               />
             </div>
             <div>
@@ -90,7 +90,7 @@ const HomePage = ({ darkMode }) => {
                 value={formData.room}
                 onChange={handleChange}
                 required
-                className={`w-full p-4 border-2 rounded-lg ${darkMode ? "bg-gray-800 text-white" : "bg-white text-black"} focus:outline-none focus:border-black`}
+                className={`w-full p-4 border-2 rounded-lg ${darkMode ? "bg-gray-800 text-black" : "bg-white text-black"} focus:outline-none focus:border-black`}
               />
             </div>
             <button

@@ -276,9 +276,9 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
 
   return (
     <div className="flex h-[100vh]">
-      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
+<div class="w-full xl:w-[250px] h-[100vh] bg-[#6674cc] items-center text-white rounded-md border hidden xl:block lg:block md:block sm:block">
         <h2
-          className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between"
+          className="font-normal text-base xl:text-2xl bg-[#eae4f6] text-richblack-900 p-4 xl:p-8 flex items-center justify-between"
           onClick={() => {
             setShowShareBox(true);
           }}
@@ -302,7 +302,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </ul>
       </div>
       <div
-        className=" flex  flex-col brosize  max-h-screen"
+        className=" flex flex-col md:flex-row brosize max-h-screen"
         style={{ flexGrow: 1 }}
       >
         <div
