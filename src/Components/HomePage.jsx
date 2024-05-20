@@ -27,7 +27,7 @@ const HomePage = ({ darkMode }) => {
     if (room) {
       setFormData({ ...formData, room });
     }
-  }, []);
+  }, [location.search]);
 
   const handleChange = (e) => {
     setFormData({
@@ -43,89 +43,76 @@ const HomePage = ({ darkMode }) => {
     setRoomDetail({ username: formData.username, room: formData.room });
     navigate(`chat?username=${formData.username}&room=${formData.room}`);
   };
+
   const defaultOptions = {
-    reverse: false, // reverse the tilt direction
-    max: 100, // max tilt rotation (degrees)
-    perspective: 1000, // Transform perspective, the lower the more extreme the tilt gets.
-    scale: 1.1, // 2 = 200%, 1.5 = 150%, etc..
-    speed: 1000, // Speed of the enter/exit transition
-    transition: true, // Set a transition on enter/exit.
-    axis: null, // What axis should be disabled. Can be X or Y.
-    reset: true, // If the tilt effect has to be reset on exit.
-    easing: "cubic-bezier(.03,.98,.52,.99)", // Easing on enter/exit.
+    reverse: false,
+    max: 100,
+    perspective: 1000,
+    scale: 1.1,
+    speed: 1000,
+    transition: true,
+    axis: null,
+    reset: true,
+    easing: "cubic-bezier(.03,.98,.52,.99)",
   };
 
   return (
-    <div className="w-screen h-screen flex flex-col-reverse xl:flex-row lg:flex-row md:flex-row sm:flex-row relative">
-  <div className="w-full xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full h-auto mx-auto my-8 py-8 px-4 flex justify-center items-center">
-    <div className="form xl:h-[35vw] xl:w-[35vw] lg:h-[35vw] lg:w-[35vw] p-[3px] bg-transparent">
-      <div
-        className={`flex flex-col items-center mb-12 ${
-          darkMode ? "text-white" : "text-customgrey"
-        }`}
-      >
-        <h1 className="join text-[2.5rem] font-semibold mb-4">JOIN ROOM</h1>
-        <p className="text-lg">
-          Let's engage and create meaningful connections on this platform.
-        </p>
+    <div className="flex flex-col-reverse xl:flex-row lg:flex-row md:flex-row sm:flex-col h-screen w-screen">
+      <div className="flex justify-center items-center w-full xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full p-4">
+        <div className="bg-transparent p-4 w-full max-w-md mx-auto">
+          <div className={`flex flex-col items-center mb-8 ${darkMode ? "text-white" : "text-customgrey"}`}>
+            <h1 className="text-3xl font-semibold mb-2">JOIN ROOM</h1>
+            <p className="text-lg text-center">
+              Let's engage and create meaningful connections on this platform.
+            </p>
+          </div>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className={`block text-lg font-semibold mb-2 ${darkMode ? "text-white" : "text-black"}`}>
+                Display Name
+              </label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                required
+                className={`w-full p-4 border-2 rounded-lg ${darkMode ? "bg-gray-800 text-white" : "bg-white text-black"} focus:outline-none focus:border-black`}
+              />
+            </div>
+            <div>
+              <label className={`block text-lg font-semibold mb-2 ${darkMode ? "text-white" : "text-black"}`}>
+                Room No.
+              </label>
+              <input
+                type="text"
+                name="room"
+                value={formData.room}
+                onChange={handleChange}
+                required
+                className={`w-full p-4 border-2 rounded-lg ${darkMode ? "bg-gray-800 text-white" : "bg-white text-black"} focus:outline-none focus:border-black`}
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full cursor-pointer p-[15px] bg-[#FF713E] border-none text-white text-xl transition duration-300 ease-in-out hover:bg-[#e45622] disabled:cursor-default disabled:bg-[#7c5cbf94] rounded-lg"
+            >
+              Join
+            </button>
+          </form>
+        </div>
       </div>
-      <form onSubmit={handleSubmit} className="input w-full h-full">
-        <label
-          className={`text-[1.1rem] font-semibold ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        >
-          Display Name
-        </label>
-        <input
-          className={`mb-8 w-full p-[15px] outline-none border-2 border-solid border-pure-greys-300 rounded-lg bg-white text-xl ${
-            darkMode ? "text-white" : "text-black"
-          } focus:border-black`}
-          type="text"
-          name="username"
-          value={formData.username}
-          onChange={handleChange}
-          required
-        />
-        <label
-          className={`text-[1.1rem] font-semibold ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        >
-          Room No.
-        </label>
-        <input
-          className={`mb-8 w-full p-[15px] outline-none border-2 border-solid border-pure-greys-300 rounded-lg bg-white text-xl ${
-            darkMode ? "text-white" : "text-black"
-          } focus:border-black`}
-          type="text"
-          name="room"
-          value={formData.room}
-          onChange={handleChange}
-          required
-        />
-        <button
-          type="submit"
-          className="w-full cursor-pointer p-[15px] bg-[#FF713E] border-none text-white text-xl transition duration-300 ease-in-out hover:bg-[#e45622] disabled:cursor-default disabled:bg-[#7c5cbf94] rounded-lg"
-        >
-          Join
-        </button>
-      </form>
+      <div className="flex justify-center items-center w-full xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full p-4">
+        <Tilt options={defaultOptions}>
+          <img
+            src={darkMode ? s : q}
+            alt="SVG"
+            className="max-w-full max-h-full object-contain"
+            style={{ maxWidth: "80%", maxHeight: "80%" }}
+          />
+        </Tilt>
+      </div>
     </div>
-  </div>
-
-  <div className="w-full xl:w-1/2 lg:w-1/2 md:w-1/2 sm:w-full flex justify-center items-center">
-    <Tilt options={defaultOptions}>
-      <img
-        className="image-class max-w-full max-h-full"
-        src={darkMode ? s : q}
-        alt="svgimage not found"
-        style={{ maxWidth: "80%", maxHeight: "80%", objectFit: "contain" }}
-      />
-    </Tilt>
-  </div>
-</div>
-
   );
 };
 
