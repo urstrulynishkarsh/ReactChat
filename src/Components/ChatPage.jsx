@@ -19,7 +19,7 @@ import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
-import Avatar from "boring-avatars";
+import Avatar from 'react-avatar';
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -322,8 +322,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               <Avatar
                 size={40}
                 name={user.username}
-                variant="marble"
-                colors={["#92A1C6", "#146A7C", "#F0AB3D", "#C271B4", "#C20D90"]}
+                round={true}
               />
               <div>
                 {user.username}
