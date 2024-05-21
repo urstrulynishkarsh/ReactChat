@@ -18,6 +18,7 @@ import {
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
+import { MdOutlineEmojiEmotions } from "react-icons/md";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -36,6 +37,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+  const [isEmojiClicked, setIsEmojiClicked] = useState(false)
 
   const [micHide, setMicHide] = useState(false);
   const [showShareBox, setShowShareBox] = useState(false);
@@ -132,7 +134,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const message = e.target.elements.message.value;
-    if(message.trim()===""){
+    if (message.trim() === "") {
       return;
     }
     socket.emit("sendMessage", message, (error) => {
@@ -149,7 +151,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const handleTyping = (e) => {
     setInputMessage(e.target.value);
     const message = e.target.value.trim();
-    
+
     if (!iamTyping) {
       socket.emit("START_TYPING");
       setIamTyping(true);
@@ -241,7 +243,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
-        
+
         } else {
           console.log("No active chat connection to disconnect.");
         }
@@ -269,8 +271,13 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     recognition.start();
   };
 
+  const handle_emoji_click = (e) => {
+    // console.log(e)
+    setInputMessage(prevMsg => prevMsg + e.emoji)
+  }
+
   return (
-    <div className="flex h-[100vh]">
+    <div className="flex h-[100vh]" onClick={() => setIsEmojiClicked(false)}>
       <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
         <h2 className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between" onClick={() => { setShowShareBox(true) }}>
           ROOM NO: {room}
@@ -304,6 +311,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             padding: "12px 24px 0 24px",
             overflowAnchor: "bottom",
           }}
+          
         >
           <div className="right-8 absolute top-3 ">
             <div className=" flex">
@@ -359,8 +367,11 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <p className="pl-4 text-[#6674cc] font-bold">{userTyping.data}</p>
         )}
 
-        <div className="compose">
+        <EmojiPicker onEmojiClick={handle_emoji_click} open={isEmojiClicked} />
+
+        <div className="compose" onClick={(e) => e.stopPropagation()}>
           <form id="message-form" className="flex items-center" onSubmit={handleSubmit}>
+            <MdOutlineEmojiEmotions size={35} color="#6674cc" onClick={() => setIsEmojiClicked(prev => !prev)} />
             <input
               name="message"
               placeholder="Message"

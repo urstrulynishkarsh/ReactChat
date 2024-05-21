@@ -58,7 +58,7 @@ circle:nth-child(3) {
   display: flex;
   flex-shrink: 0;
   margin-top: 16px;
-  padding: 24px;
+  padding: 16px;
 }
 
 .compose form {
