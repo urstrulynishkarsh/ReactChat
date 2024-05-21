@@ -18,6 +18,7 @@ import {
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
+import MicroPhone from "./MicroPhone";
 import Avatar from "boring-avatars";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
@@ -37,6 +38,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+  const [isMicOpen, setMicOpen] = useState(false);
 
   const [micHide, setMicHide] = useState(false);
   const [showShareBox, setShowShareBox] = useState(false);
@@ -266,10 +268,21 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     }
     const recognition = new SpeechRecognition();
 
+    recognition.onstart = () => {
+      console.log("Speech recognition service has started");
+      setMicOpen(true);
+    };
+
+    recognition.onaudioend = () => {
+      console.log("Audio capturing ended");
+      setMicOpen(false);
+    };
+
     recognition.onresult = (event) => {
       const currentTranscript = event.results[0][0].transcript;
       console.log(currentTranscript);
-      setInputMessage(currentTranscript);
+      setMicOpen(false);
+      setInputMessage((prev) => prev + currentTranscript);
     };
 
     recognition.start();
@@ -476,6 +489,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           link={`https://reactchatio.vercel.app?room=${room}`}
         />
       )}
+      {isMicOpen && <MicroPhone />}
     </div>
   );
 };

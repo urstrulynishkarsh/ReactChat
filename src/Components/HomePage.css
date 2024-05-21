@@ -1,12 +1,50 @@
 
 
-.centered-form__box {
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
-    background: #F7F7FA;
-    padding: 30px;
-    width: 350px;
-    height: 350px;
-}
+/* .centered-form__box {
+background:transparent;
+    /* padding: 3px; */
+    /* padding-left: 20px; */
+    /* width: 25vw; */
+    /* height: 35vw; */
+
+
+     @media (max-width: 850px) {
+        .form{
+            width: 35vw;
+            height: 60vw;
+           
+        }
+      }
+
+    @media screen and (max-width:450px){
+        .img {
+            width: 90% !important; 
+            height: auto; 
+            margin-top: 30px;
+            
+        }
+        .form{
+            
+            width: 100% !important;
+            
+        }
+        .join{
+           
+           margin-left: 50vw;
+           
+        }
+       
+       .input{
+     
+        margin-left: 25vw;
+ }
+      
+       .image-class {
+        margin-bottom: -15rem;
+      }
+       
+    }
+
 
 
 
