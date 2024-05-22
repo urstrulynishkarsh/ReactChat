@@ -1,24 +1,16 @@
-const express = require("express");
-const path = require("path");
-const http = require("http");
-const socketio = require("socket.io");
-const cors = require("cors");
+import express from "express";
+import path from "path";
+import http from "http";
+import { Server as ServerSocketIO } from "socket.io";
+import cors, { CorsOptions } from "cors";
+import Filter from "bad-words";
+
+import { addUser, removeUser, getUsersInRoom, getUser } from "./Utils/Users";
+import { generateMessage, generateLocationMessage } from "./Utils/Messages";
 
 const app = express();
 const server = http.createServer(app);
 // const io=socketio(server);
-const Filter = require("bad-words");
-
-const {
-  addUser,
-  removeUser,
-  getUser,
-  getUsersInRoom,
-} = require("./Utils/Users");
-const {
-  generateMessage,
-  generateLocationMessage,
-} = require("./Utils/Messages");
 
 const PORT = process.env.PORT || 4000;
 
@@ -31,13 +23,15 @@ const PORT = process.env.PORT || 4000;
 
 app.use(cors());
 
-const io = socketio(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-    allowedHeaders: ["my-custom-header"],
-    credentials: true,
-  },
+const corsInit: CorsOptions = {
+  origin: "http://localhost:3000",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["my-custom-header"],
+  credentials: true,
+};
+
+const io = new ServerSocketIO(server, {
+  cors: corsInit,
 });
 
 // Socket.IO CORS middleware
@@ -60,6 +54,7 @@ io.on("connection", (socket) => {
         error,
       });
     }
+
     socket.join(user.room);
 
     socket.emit("message", generateMessage(`${user.username}`, "Welcome!"));
@@ -81,19 +76,21 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendMessage", (message, callback) => {
-    const user = getUser(socket.id);
+    const user = getUser(parseInt(socket.id));
 
     const filter = new Filter();
     if (filter.isProfane(message)) {
       console.warn("Profanity is not allowed!");
       return;
     }
-    io.to(user?.room).emit("message", generateMessage(user.username, message));
+    if (user) {
+      io.to(user.room).emit("message", generateMessage(user.username, message));
+    }
     callback();
   });
 
   socket.on("START_TYPING", () => {
-    const user = getUser(socket.id);
+    const user = getUser(parseInt(socket.id));
     if (user) {
       // Check if user exists
       socket.broadcast
@@ -102,7 +99,7 @@ io.on("connection", (socket) => {
     }
   });
   socket.on("STOP_TYPING", () => {
-    const user = getUser(socket.id);
+    const user = getUser(parseInt(socket.id));
     if (user) {
       // Check if user exists
       socket.broadcast.to(user?.room).emit("STOP_USER_TYPING", ``);
@@ -110,19 +107,22 @@ io.on("connection", (socket) => {
   });
 
   socket.on("sendLocation", (coords, callback) => {
-    const user = getUser(socket.id);
-    io.to(user.room).emit(
-      "locationMessage",
-      generateLocationMessage(
-        user.username,
-        `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
-      )
-    );
+    const user = getUser(parseInt(socket.id));
+
+    if (user) {
+      io.to(user.room).emit(
+        "locationMessage",
+        generateLocationMessage(
+          user.username,
+          `https://google.com/maps?q=${coords.latitude},${coords.longitude}`
+        )
+      );
+    }
     callback();
   });
 
   socket.on("disconnect", () => {
-    const user = removeUser(socket.id);
+    const user = removeUser(parseInt(socket.id));
 
     if (user) {
       io.to(user.room).emit(
