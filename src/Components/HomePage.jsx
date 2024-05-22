@@ -46,6 +46,16 @@ const HomePage = ({darkMode}) => {
     setRoomDetail({ username: formData.username, room: formData.room });
     navigate(`chat?username=${formData.username}&room=${formData.room}`);
   };
+  const generateRandomRoomNumber = () => {
+    const formats = [
+      Math.floor(Math.random() * 90 + 10).toString(), // 2-digit format
+      Math.floor(Math.random() * 900 + 100).toString(), // 3-digit format
+      Math.floor(Math.random() * 9000 + 1000).toString(), // 4-digit format
+    ];
+    const randomIndex = Math.floor(Math.random() * formats.length);
+    setFormData((prevData) => ({ ...prevData, room: formats[randomIndex] }));
+  };
+
   const defaultOptions = {
     reverse:        false,  // reverse the tilt direction
     max:            100,     // max tilt rotation (degrees)
@@ -80,7 +90,7 @@ const HomePage = ({darkMode}) => {
           />
           <label className={`text-[1.1rem] font-semibold  ${darkMode ? 'text-white': 'text-black'} `}>Room No.</label>
           <input
-            className={` mb-12 w-full  p-[28px] outline-none border-2 border-solid border-pure-greys-300 rounded-lg bg-transparent text-2xl ${darkMode ? 'text-white':'text-black'}`}
+            className={` w-full  p-[28px] outline-none border-2 border-solid border-pure-greys-300 rounded-lg bg-transparent text-2xl ${darkMode ? 'text-white':'text-black'}`}
             type="text"
             name="room"
             
@@ -88,6 +98,14 @@ const HomePage = ({darkMode}) => {
             onChange={handleChange}
             required
           />
+           <button
+              type="button"
+              onClick={generateRandomRoomNumber}
+              className="mb-12 p-[12px] bg-gray-500 text-blue rounded-lg"
+              style={{ textDecoration:'underline', color:'blue'}}
+            >
+              Generate Random Room No.
+            </button>      
           <button type="submit" className="w-[100%] cursor-pointer p-[28px] bg-[#FF713E] border-none  text-white text-2xl transition duration-300 ease-in-out hover:bg-[#e45622] disabled:cursor-default disabled:bg-[#7c5cbf94] rounded-lg">
             Join
           </button>
