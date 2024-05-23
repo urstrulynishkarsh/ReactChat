@@ -6,7 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
 import Loader from "./Components/Loader";
-import { DarkModeToggle } from "dark-mode-toggle";
+// import { DarkModeToggle } from "dark-mode-toggle";
+//The above import is not being used anywhere so instead commented 
 
 const RootComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -46,5 +47,8 @@ const RootComponent = () => {
   );
 };
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<RootComponent />);
+const __root = document.getElementById("root");
+if (__root) {
+  const root = ReactDOM.createRoot(__root);
+  root.render(<RootComponent />);
+}

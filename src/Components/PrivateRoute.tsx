@@ -1,12 +1,12 @@
-import { ReactNode, useState } from "react";
+import React, { FC, ReactNode, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 import { useAuth } from "../Context/UserAuthContext";
 
-export function PrivateRoute({ children }) {
+const PrivateRoute: FC<{ children: ReactNode }> = ({ children }) => {
   let username = localStorage.getItem("username");
   let room = localStorage.getItem("room");
-  const { roomDetail } = useAuth();
+  const roomDetail = useAuth()?.roomDetail;
 
   return room !== null && username !== null ? (
     <>{children}</>
@@ -14,3 +14,5 @@ export function PrivateRoute({ children }) {
     <Navigate to="/" />
   );
 }
+
+export default PrivateRoute;

@@ -4,11 +4,13 @@ export interface UserInit{
     room: string
 }
 
+export interface UserDetailsInit{
+    username: string
+    room: string
+}
+
 export interface StatusInit{
     status: boolean
     error: string
-    user: {
-        room : string
-        username : string
-    }
+    user: UserDetailsInit
 }

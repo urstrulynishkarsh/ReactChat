@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { FC, useState } from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { BsLink45Deg, BsX } from "react-icons/bs";
 
-function ShareBox({ link, showShareBox }) {
+type Props = {
+    link: string
+    showShareBox: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ShareBox: FC<Props> = ({ link, showShareBox }) => {
     const [copy, setCopy] = useState("Copy");
 
     const copyLink = () => {

@@ -1,24 +1,24 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { ChangeEvent, FC, FormEvent, useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useLocation } from "react-router";
 import MessageTemplate from "./MessageTemplate";
 import LocationTemplate from "./LocationTemplate";
 import Swal from "sweetalert2";
-import Mustache from "mustache";
 import moment from "moment";
 import Qs from "qs";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import EmojiPicker from "emoji-picker-react";
 import {
   AiOutlineClose,
   AiOutlineMenu,
-  AiOutlineShoppingCart,
 } from "react-icons/ai";
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
+
+import { DataInit, RoomUserInit, TypingInit, USERS } from "../types/ChatPage";
+import { GenerateLocationMessageInit, GenerateMessageInit } from "../../server/types/Message";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -28,24 +28,26 @@ const socket = io("wss://reactchat-production-f378.up.railway.app/", {
   transports: ["websocket"],
 });
 
-const ChatPage = ({ darkMode, setDarkMode }) => {
+
+
+const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ darkMode, setDarkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<(GenerateMessageInit | GenerateLocationMessageInit)[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [users, setUsers] = useState([]);
+  const [Users, setUsers] = useState<USERS[]>([]);
   const [typingUsers, setTypingUsers] = useState([]);
-  const messagesContainerRef = useRef(null);
-  const [hasError, setHasError] = useState(false);
-  const [isMicOpen, setMicOpen] = useState(false);
+  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const [hasError, setHasError] = useState<boolean>(false);
+  const [isMicOpen, setMicOpen] = useState<boolean>(false);
 
-  const [micHide, setMicHide] = useState(false);
-  const [showShareBox, setShowShareBox] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [micHide, setMicHide] = useState<boolean>(false);
+  const [showShareBox, setShowShareBox] = useState<boolean>(false);
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
-  const [iamTyping, setIamTyping] = useState(false);
-  const typingTimeOut = useRef();
-  const [userTyping, setUserTyping] = useState({
+  const [iamTyping, setIamTyping] = useState<boolean>(false);
+  const typingTimeOut = useRef<NodeJS.Timeout>(null);
+  const [userTyping, setUserTyping] = useState<TypingInit>({
     isTyping: false,
     data: "",
   });
@@ -78,7 +80,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     if (localusername !== username || localroom !== room) {
       return navigate("/");
     }
-    socket.emit("join", { username, room }, (data) => {
+    socket.emit("join", { username, room }, (data: DataInit) => {
       if (!data.status) {
         // Display popup if the user is already in a room
         Swal.fire({
@@ -98,34 +100,39 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       }
     });
   }, []);
+
   useEffect(() => {
-    socket.on("message", (message) => {
-      setMessages((prevMessages) => [
-        ...prevMessages,
+
+    socket.on("message", (message: GenerateMessageInit) => {
+
+      setMessages([
+        ...messages,
         {
           username: message.username,
-          message: message.text,
+          message: message.message,
           createdAt: moment(message.createdAt).format("h:mm a"),
         },
       ]);
+
       scrollToBottom();
     });
 
-    socket.on("locationMessage", (message) => {
-      console.log(messages);
-      setMessages((prevMessages) => [
-        ...prevMessages,
+    socket.on("locationMessage", (message: GenerateLocationMessageInit) => {
+      setMessages([
+        ...messages,
         {
           username: message.username,
           url: message.url,
           createdAt: moment(message.createdAt).format("h:mm a"),
         },
       ]);
+
       scrollToBottom();
     });
 
-    socket.on("roomData", ({ room, users }) => {
-      setUsers(users);
+    socket.on("roomData", ({ room, users }: RoomUserInit) => {
+      setUsers([...Users, users as USERS]);
+      //the provided code was wrong so had to change setUsers as it will now expand previous users and add new ones too
       console.table(users);
       console.log("room", room);
     });
@@ -137,13 +144,13 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     };
   }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const message = e.target.elements.message.value;
+    const message = (e.currentTarget.elements.namedItem("message") as HTMLInputElement).value;
     if (message.trim() === "") {
       return;
     }
-    socket.emit("sendMessage", message, (error) => {
+    socket.emit("sendMessage", message, (error: string) => {
       if (error) {
         console.log(error);
       } else {
@@ -154,7 +161,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     });
   };
 
-  const handleTyping = (e) => {
+  const handleTyping = (e: ChangeEvent<HTMLInputElement>) => {
     setInputMessage(e.target.value);
     const message = e.target.value.trim();
 
@@ -163,12 +170,19 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       setIamTyping(true);
     }
 
-    if (typingTimeOut.current) clearTimeout(typingTimeOut.current);
+    if (typingTimeOut.current) {
+      clearTimeout(typingTimeOut.current);
 
-    typingTimeOut.current = setTimeout(() => {
-      socket.emit("STOP_TYPING");
-      setIamTyping(false);
-    }, [500]);
+      (typingTimeOut.current as NodeJS.Timeout) = setTimeout(() => {
+          socket.emit("STOP_TYPING");
+          setIamTyping(false);
+      }, 500);
+
+      //I can't resolve this bug sadly --TypingTimeout property current here is readonly
+      // did resolved using NodeJs.TimeOut but not sure if is the right methodologies (edited)
+    };
+
+
   };
 
   const handleSendLocation = () => {
@@ -202,7 +216,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   }, [messages]);
 
   useEffect(() => {
-    const handleTypingStart = (data) => {
+    const handleTypingStart = (data: string) => {
       setUserTyping({
         ...userTyping,
         isTyping: true,
@@ -210,7 +224,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       });
     };
 
-    const handleTypingStop = (data) => {
+    const handleTypingStop = (data: string) => {
       // console.log("STOP TYPING>>>", data);
       setUserTyping({
         ...userTyping,
@@ -246,8 +260,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         if (socket) {
-          localStorage.clear("username");
-          localStorage.clear("room");
+          localStorage.removeItem("username");
+          localStorage.removeItem("room");
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
@@ -259,13 +273,13 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   }
 
   const startListening = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
+    const _SpeechRecognition =
+      (window).SpeechRecognition || (window).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setMicHide(true);
       return;
     }
-    const recognition = new SpeechRecognition();
+    const recognition = new _SpeechRecognition();
 
     recognition.onstart = () => {
       console.log("Speech recognition service has started");
@@ -296,7 +310,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             setShowShareBox(true);
           }}
         >
-          ROOM NO: {room}
+          ROOM NO: {room as string}
           <FaShare className="text-[#6674cc] ml-2" size={30} />
         </h2>
         <h3
@@ -306,7 +320,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           Users
         </h3>
         <ul className="users">
-          {users.map((user, index) => (
+          {Users.map((user, index) => (
             <li key={index} className="ml-2">
               {user.username}
               <span className="hello"></span>
@@ -325,7 +339,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           style={{
             flexGrow: 1,
             padding: "12px 24px 0 24px",
-            overflowAnchor: "bottom",
+            overflowAnchor: "revert",
+            //bottom is no any property on OVERFLOWANCHOR
           }}
         >
           <div className="right-8 absolute top-3 ">
@@ -357,10 +372,9 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           </div>
 
           {messages.map((msg, index) =>
-            msg.url ? (
+            "url" in msg ? (
               <LocationTemplate
                 darkMode={darkMode}
-                setDarkMode={setDarkMode}
                 key={index}
                 username={msg.username}
                 createdAt={msg.createdAt}
@@ -369,7 +383,6 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             ) : (
               <MessageTemplate
                 darkMode={darkMode}
-                setDarkMode={setDarkMode}
                 key={index}
                 username={msg.username}
                 createdAt={msg.createdAt}
@@ -399,9 +412,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             {!micHide && (
               <FaMicrophone
                 size={40}
-                className={`m-2 mr-3 ${
-                  darkMode ? "text-white" : "text-pure-greys-600"
-                }`}
+                className={`m-2 mr-3 ${darkMode ? "text-white" : "text-pure-greys-600"
+                  }`}
                 onClick={startListening}
               />
             )}
@@ -455,7 +467,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       </div>
 
       {isMenuOpen && (
-        <MobileMenu users={users} room={room} darkMode={darkMode} />
+        <MobileMenu users={Users} room={room as string} darkMode={darkMode} />
       )}
       {showShareBox && (
         <ShareBox

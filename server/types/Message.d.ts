@@ -1,11 +1,11 @@
 export interface GenerateMessageInit{
     username: string;
-    text: string;
-    createdAt: number;
+    message: string;
+    createdAt: string | number;
 }
 
 export interface GenerateLocationMessageInit{
     username: string;
     url: string;
-    createdAt: number;
+    createdAt: string | number;
 }
