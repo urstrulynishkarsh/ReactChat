@@ -17,7 +17,7 @@ import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
 
-import { DataInit, RoomUserInit, TypingInit, USERS } from "../types/ChatPage";
+import { DataInit, MessageInit, RoomUserInit, TypingInit, USERS } from "../types/ChatPage";
 import { GenerateLocationMessageInit, GenerateMessageInit } from "../../server/types/Message";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
@@ -33,7 +33,7 @@ const socket = io("wss://reactchat-production-f378.up.railway.app/", {
 const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ darkMode, setDarkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [messages, setMessages] = useState<(GenerateMessageInit | GenerateLocationMessageInit)[]>([]);
+  const [messages, setMessages] = useState<(MessageInit | GenerateLocationMessageInit)[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [Users, setUsers] = useState<USERS[] | USERS>([]);
   const [typingUsers, setTypingUsers] = useState([]);
@@ -109,7 +109,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
         ...prevMessages,
         {
           username: message.username,
-          message: message.message,
+          message: message.text,
           createdAt: moment(message.createdAt).format("h:mm a"),
         },
       ]);
@@ -146,7 +146,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const message = e.target.elements.message.value;
+    const message = (e.currentTarget.elements.namedItem("message") as HTMLInputElement).value;
     console.log(e);
     if (message.trim() === "") {
       return;
@@ -174,9 +174,9 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
     if (typingTimeOut.current) {
       clearTimeout(typingTimeOut.current);
 
-      typingTimeOut.current = setTimeout(() => {
-          socket.emit("STOP_TYPING");
-          setIamTyping(false);
+      (typingTimeOut.current as NodeJS.Timeout) = setTimeout(() => {
+        socket.emit("STOP_TYPING");
+        setIamTyping(false);
       }, 500);
 
       //I can't resolve this bug sadly --TypingTimeout property current here is readonly

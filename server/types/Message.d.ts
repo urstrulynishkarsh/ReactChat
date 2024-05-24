@@ -1,6 +1,6 @@
 export interface GenerateMessageInit{
     username: string;
-    message: string;
+    text: string;
     createdAt: string | number;
 }
 

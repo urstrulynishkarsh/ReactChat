@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
-import { GenerateMessageInit } from '../../server/types/Message';
+import { MessageInit } from '../types/ChatPage';
 
-type Props = GenerateMessageInit & { darkMode: boolean };
+type Props = MessageInit & { darkMode: boolean };
 
 const MessageTemplate: FC<Props> = ({ username, createdAt, message, darkMode }) => {
   const limitedUsername = username.length > 10 ? username.slice(0, 10) + '...' : username;

@@ -9,7 +9,7 @@ const generateMessage: (
 ) => GenerateMessageInit = (username, text) => {
   return {
     username,
-    message : text,
+    text,
     createdAt: new Date().getTime(),
   };
 };

@@ -5,7 +5,7 @@ export interface DataInit{
 export interface MessageInit{
     username: string;
     message: string;
-    createdAt: string;
+    createdAt: string | number;
 }
 
 export type USERS = {
