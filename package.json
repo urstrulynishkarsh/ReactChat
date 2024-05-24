@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "browser-router": "^0.2.0",
+    "caniuse-lite": "^1.0.30001621",
     "concurrently": "^8.2.2",
     "dark-mode-toggle": "^0.15.0",
     "emoji-picker-react": "^4.9.2",
