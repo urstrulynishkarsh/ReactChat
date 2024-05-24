@@ -17,7 +17,7 @@ import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
 
-import { DataInit, MessageInit, RoomUserInit, TypingInit, USERS } from "../types/ChatPage";
+import { DarkModeInit, DataInit, MessageInit, RoomUserInit, TypingInit, USERS } from "../types/ChatPage";
 import { GenerateLocationMessageInit, GenerateMessageInit } from "../../server/types/Message";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
@@ -30,14 +30,14 @@ const socket = io("wss://reactchat-production-f378.up.railway.app/", {
 
 
 
-const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetStateAction<boolean>> }> = ({ darkMode, setDarkMode }) => {
+const ChatPage: FC<DarkModeInit> = ({ darkMode, setDarkMode }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [messages, setMessages] = useState<(MessageInit | GenerateLocationMessageInit)[]>([]);
   const [inputMessage, setInputMessage] = useState("");
   const [Users, setUsers] = useState<USERS[] | USERS>([]);
   const [typingUsers, setTypingUsers] = useState([]);
-  const messagesContainerRef = useRef<HTMLDivElement>(null);
+  const messagesContainerRef = useRef<HTMLDivElement | null>(null);
   const [hasError, setHasError] = useState<boolean>(false);
   const [isMicOpen, setMicOpen] = useState<boolean>(false);
 
@@ -46,7 +46,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
   const [iamTyping, setIamTyping] = useState<boolean>(false);
-  const typingTimeOut = useRef<NodeJS.Timeout>(null);
+  const typingTimeOut = useRef<NodeJS.Timeout | null>(null);
   const [userTyping, setUserTyping] = useState<TypingInit>({
     isTyping: false,
     data: "",
@@ -146,8 +146,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const message = (e.currentTarget.elements.namedItem("message") as HTMLInputElement).value;
-    console.log(e);
+    const message = (((e.target as HTMLFormElement).elements as HTMLFormControlsCollection).namedItem("message") as HTMLInputElement).value;
     if (message.trim() === "") {
       return;
     }
@@ -171,18 +170,17 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
       setIamTyping(true);
     }
 
+
     if (typingTimeOut.current) {
-      clearTimeout(typingTimeOut.current);
+      clearTimeout(typingTimeOut.current)
+    }
 
-      (typingTimeOut.current as NodeJS.Timeout) = setTimeout(() => {
-        socket.emit("STOP_TYPING");
-        setIamTyping(false);
-      }, 500);
+    typingTimeOut.current = setTimeout(() => {
+      socket.emit("STOP_TYPING");
+      setIamTyping(false);
+    }, 500);
 
-      //I can't resolve this bug sadly --TypingTimeout property current here is readonly
-      // did resolved using NodeJs.TimeOut but not sure if is the right methodologies (edited)
-    };
-
+    // did resolved using NodeJs.TimeOut but not sure if is the right methodologies (edited)
 
   };
 
@@ -379,6 +377,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
                 key={index}
                 username={msg.username}
                 createdAt={msg.createdAt}
+                setDarkMode={setDarkMode}
                 url={msg.url}
               />
             ) : (
@@ -387,6 +386,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
                 key={index}
                 username={msg.username}
                 createdAt={msg.createdAt}
+                setDarkMode={setDarkMode}
                 message={msg.message}
               />
             )

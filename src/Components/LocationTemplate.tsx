@@ -2,10 +2,11 @@ import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import { GenerateLocationMessageInit } from '../../server/types/Message';
+import { DarkModeInit } from '../types/ChatPage';
 
-type Props = GenerateLocationMessageInit & { darkMode: boolean }
+type Props = GenerateLocationMessageInit & DarkModeInit
 
-const LocationTemplate: FC<Props> = ({ username, createdAt, url, darkMode }) => {
+const LocationTemplate: FC<Props> = ({ username, createdAt, url, darkMode, setDarkMode }) => {
 
   // console.log(username)
   const limitedUsername = username.length > 10 ? username.slice(0, 10) + '...' : username;
