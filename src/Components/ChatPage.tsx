@@ -35,7 +35,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
   const navigate = useNavigate();
   const [messages, setMessages] = useState<(GenerateMessageInit | GenerateLocationMessageInit)[]>([]);
   const [inputMessage, setInputMessage] = useState("");
-  const [Users, setUsers] = useState<USERS[]>([]);
+  const [Users, setUsers] = useState<USERS[] | USERS>([]);
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const [hasError, setHasError] = useState<boolean>(false);
@@ -105,8 +105,8 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
 
     socket.on("message", (message: GenerateMessageInit) => {
 
-      setMessages([
-        ...messages,
+      setMessages((prevMessages) => [
+        ...prevMessages,
         {
           username: message.username,
           message: message.message,
@@ -118,8 +118,8 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
     });
 
     socket.on("locationMessage", (message: GenerateLocationMessageInit) => {
-      setMessages([
-        ...messages,
+      setMessages((prevMessages) => [
+        ...prevMessages,
         {
           username: message.username,
           url: message.url,
@@ -131,7 +131,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
     });
 
     socket.on("roomData", ({ room, users }: RoomUserInit) => {
-      setUsers([...Users, users as USERS]);
+      setUsers(users);
       //the provided code was wrong so had to change setUsers as it will now expand previous users and add new ones too
       console.table(users);
       console.log("room", room);
@@ -146,7 +146,8 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const message = (e.currentTarget.elements.namedItem("message") as HTMLInputElement).value;
+    const message = e.target.elements.message.value;
+    console.log(e);
     if (message.trim() === "") {
       return;
     }
@@ -173,7 +174,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
     if (typingTimeOut.current) {
       clearTimeout(typingTimeOut.current);
 
-      (typingTimeOut.current as NodeJS.Timeout) = setTimeout(() => {
+      typingTimeOut.current = setTimeout(() => {
           socket.emit("STOP_TYPING");
           setIamTyping(false);
       }, 500);
@@ -260,8 +261,8 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
     }).then((result) => {
       if (result.isConfirmed) {
         if (socket) {
-          localStorage.removeItem("username");
-          localStorage.removeItem("room");
+          localStorage.clear();
+          localStorage.clear();
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
@@ -273,13 +274,13 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
   }
 
   const startListening = () => {
-    const _SpeechRecognition =
+    const SpeechRecognition =
       (window).SpeechRecognition || (window).webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setMicHide(true);
       return;
     }
-    const recognition = new _SpeechRecognition();
+    const recognition = new SpeechRecognition();
 
     recognition.onstart = () => {
       console.log("Speech recognition service has started");
@@ -320,7 +321,7 @@ const ChatPage: FC<{ darkMode: boolean, setDarkMode: React.Dispatch<React.SetSta
           Users
         </h3>
         <ul className="users">
-          {Users.map((user, index) => (
+          {(Users as USERS[]).map((user, index) => (
             <li key={index} className="ml-2">
               {user.username}
               <span className="hello"></span>
