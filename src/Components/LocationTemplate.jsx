@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import MapEmbed from './MapEmbed';
 const LocationTemplate = ({ username, createdAt, url,darkMode }) => {
-  console.log(url)
+ 
 
   // console.log(username)
   const limitedUsername = username.length> 10 ? username.slice(0, 10) + '...' : username;
