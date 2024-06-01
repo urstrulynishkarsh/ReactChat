@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import MapEmbed from './MapEmbed';
 const LocationTemplate = ({ username, createdAt, url,darkMode }) => {
+ 
 
   // console.log(username)
   const limitedUsername = username.length> 10 ? username.slice(0, 10) + '...' : username;
@@ -16,6 +17,7 @@ const LocationTemplate = ({ username, createdAt, url,darkMode }) => {
           My current location
         </Link>
       </p>
+      <MapEmbed url={url} />
     </div>
   );
 };
