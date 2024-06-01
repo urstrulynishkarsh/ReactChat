@@ -181,6 +181,14 @@ circle:nth-child(3) {
   border-radius: 4px;
   transform: translate(-50%, 0);
 }
+iframe{
+  border-top: 10px solid #addff3;
+  border-radius: 20px;
+  border-bottom: 20px solid #addff3;
+  border-left: 6px solid #addff3;
+  border-right: 6px solid #addff3;
+
+}
 
 @keyframes circle-size {
   from {
