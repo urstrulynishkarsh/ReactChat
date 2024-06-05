@@ -25,13 +25,19 @@ const addUser = ({ id, username, room }) => {
 
   // validate
   if (existingUser) {
-    return {
-      status: false,
-      error: "UserName is in Used",
-      user: {},
-    };
+    if (existingUser.id === id) {
+      // User is rejoining the same room
+      return { status: true, error: "", user: existingUser };
+    } else {
+      // Another user is trying to join with the same username
+      return {
+        status: false,
+        error: "Username is in use!",
+        user: {},
+      };
+    }
   }
-  
+
   // push into the array
   const user = { id, username, room };
   users.push(user);
