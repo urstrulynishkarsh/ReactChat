@@ -2,6 +2,13 @@
 
 Welcome to ReactChat, a powerful and dynamic web-based chat application built with Socket.IO. Our mission is to provide an immersive chat experience by integrating advanced features such as real-time messaging and location sharing. In this README, we'll guide you through setting up and building your project using React and Tailwind CSS.
 
+<p align="center">
+  <img src="https://img.shields.io/github/stars/urstrulynishkarsh/ReactChat?color=%23f39c12&style=for-the-badge&logo=github&logoColor=white">&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://img.shields.io/github/forks/urstrulynishkarsh/ReactChat?color=%23e74c3c&style=for-the-badge&logo=github&logoColor=white">&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://img.shields.io/github/issues/urstrulynishkarsh/ReactChat?color=%238e44ad&style=for-the-badge&logo=github&logoColor=white">&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="https://img.shields.io/github/contributors/urstrulynishkarsh/ReactChat?color=%231abc9c&style=for-the-badge&logo=github&logoColor=white">
+</p>
+
 <h1 align="center">Tech-Stack</h1>
 
 <p align="center">
