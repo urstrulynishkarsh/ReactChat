@@ -18,6 +18,8 @@ import {
 import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
+import MicroPhone from "./MicroPhone";
+import Avatar from 'react-avatar';
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -36,6 +38,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+  const [isMicOpen, setMicOpen] = useState(false);
 
   const [micHide, setMicHide] = useState(false);
   const [showShareBox, setShowShareBox] = useState(false);
@@ -265,10 +268,21 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     }
     const recognition = new SpeechRecognition();
 
+    recognition.onstart = () => {
+      console.log("Speech recognition service has started");
+      setMicOpen(true);
+    };
+
+    recognition.onaudioend = () => {
+      console.log("Audio capturing ended");
+      setMicOpen(false);
+    };
+
     recognition.onresult = (event) => {
       const currentTranscript = event.results[0][0].transcript;
       console.log(currentTranscript);
-      setInputMessage(currentTranscript);
+      setMicOpen(false);
+      setInputMessage((prev) => prev + currentTranscript);
     };
 
     recognition.start();
@@ -294,10 +308,34 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </h3>
         <ul className="users">
           {users.map((user, index) => (
-            <li key={index} className="ml-2">
-              {user.username}
-              <span className="hello"></span>
-            </li>
+            <div
+              key={index}
+              className="ml-2"
+              style={{
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                gap: "5px",
+                margin:'10px',
+              }}
+            >
+              <Avatar
+                size={40}
+                name={user.username}
+                round={true}
+              />
+              <div>
+                {user.username}
+                <div
+                  style={{
+                    color: "#2ecc71",
+                   fontWeight:'800'
+                  }}
+                >
+                  Online
+                </div>
+              </div>
+            </div>
           ))}
         </ul>
       </div>
@@ -450,6 +488,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           link={`https://reactchatio.vercel.app?room=${room}`}
         />
       )}
+      {isMicOpen && <MicroPhone />}
     </div>
   );
 };

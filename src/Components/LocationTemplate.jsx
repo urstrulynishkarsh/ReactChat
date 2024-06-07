@@ -1,8 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-const LocationTemplate = ({ username, createdAt, url, darkMode }) => {
-  const limitedUsername = username.length > 10 ? username.slice(0, 10) + '...' : username;
   return (
     <div className="message p-2 md:p-4 bg-white dark:bg-gray-800 rounded-md shadow-md mb-2">
     <p className="flex justify-between items-center text-sm md:text-base">
@@ -24,6 +21,7 @@ const LocationTemplate = ({ username, createdAt, url, darkMode }) => {
           My current location
         </Link>
       </p>
+      <MapEmbed url={url} />
     </div>
   );
 };
