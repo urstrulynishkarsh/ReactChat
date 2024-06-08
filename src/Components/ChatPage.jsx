@@ -19,7 +19,7 @@ import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
-import Avatar from 'react-avatar';
+import Avatar from "react-avatar";
 
 // const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
@@ -316,20 +316,16 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 justifyContent: "start",
                 alignItems: "center",
                 gap: "5px",
-                margin:'10px',
+                margin: "10px",
               }}
             >
-              <Avatar
-                size={40}
-                name={user.username}
-                round={true}
-              />
+              <Avatar size={40} name={user.username} round={true} />
               <div>
                 {user.username}
                 <div
                   style={{
                     color: "#2ecc71",
-                   fontWeight:'800'
+                    fontWeight: "800",
                   }}
                 >
                   Online
@@ -390,6 +386,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 username={msg.username}
                 createdAt={msg.createdAt}
                 url={msg.url}
+                isOwnMessage={msg.username === username} // checking if this message is from current user
               />
             ) : (
               <MessageTemplate
@@ -399,6 +396,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 username={msg.username}
                 createdAt={msg.createdAt}
                 message={msg.message}
+                isOwnMessage={msg.username === username} //same as above
               />
             )
           )}
