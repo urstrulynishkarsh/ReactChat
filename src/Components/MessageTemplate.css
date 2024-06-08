@@ -1,0 +1,51 @@
+.message-container {
+    position: relative;
+    margin-top: 20px;
+  }
+  
+  .message-box {
+    position: relative;
+    max-width: 50%;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    color: white;
+  }
+  
+  .message-box .message-info {
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+  }
+  
+  .message-box .message-text {
+    font-size: 1rem;
+  }
+  
+  .message-box .message-arrow {
+    position: absolute;
+    left: -10px;
+    top: 10px;
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-right: 10px solid #6674cc;
+  }
+  
+  .message-container.light .message-box {
+    background-color: #f1f1f1;
+    color: #333;
+  }
+  
+  .message-container.light .message-box .message-arrow {
+    border-right: 10px solid #f1f1f1;
+  }
+  
+  .message-container.dark .message-box {
+    background-color: #6674cc;
+  }
+  
+  .message-container.dark .message-box .message-arrow {
+    border-right: 10px solid #6674cc;
+  }
+  
