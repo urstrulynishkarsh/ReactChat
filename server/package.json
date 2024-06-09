@@ -15,7 +15,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "env-cmd ./config/dev.env nodemon index.js"
+    "dev": "env-cmd ./config/dev.env nodemon index.js",
+    "build": "npm run build"
   },
   "keywords": [],
   "author": "",
