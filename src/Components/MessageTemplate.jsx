@@ -14,14 +14,16 @@ const MessageTemplate = ({
       <p>
         <span
           className={`${
-            darkMode ? "text-white" : " text-black"
+            darkMode ? "text-richblack-700" : " text-black"
           }  message__name`}
         >
           {limitedUsername}
         </span>
         <span className="message__meta">{createdAt}</span>
       </p>
-      <p className={`${darkMode ? "text-white" : " text-black"}`}>{message}</p>
+      <p className={`${darkMode ? "text-customgrey" : " text-black"}`}>
+        {message}
+      </p>
     </div>
   );
 };
