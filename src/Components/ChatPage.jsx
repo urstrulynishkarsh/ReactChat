@@ -336,7 +336,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </ul>
       </div>
       <div
-        className=" flex  flex-col brosize  max-h-screen"
+        className="flex flex-col brosize pt-20 max-h-screen"
         style={{ flexGrow: 1 }}
       >
         <div
