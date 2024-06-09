@@ -341,7 +341,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       >
         <div
           id="messages"
-          className=" overflow-y-auto "
+          className="flex flex-col overflow-y-auto "
           ref={messagesContainerRef}
           style={{
             flexGrow: 1,

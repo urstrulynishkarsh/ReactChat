@@ -75,18 +75,22 @@ circle:nth-child(3) {
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 16px;
+  max-width: 40%;
+  word-wrap: break-word;
 }
 
 .sent {
-  align-items: right;
+  align-self: right;
   background-color: #c1e3ff;
-  text-align: right;
+  text-align: left;
+  margin-left: auto;
 }
 
 .received {
   align-items: right;
   background-color: rgb(230, 230, 230);
   text-align: left;
+  margin-right: auto;
 }
 
 .message__name {
