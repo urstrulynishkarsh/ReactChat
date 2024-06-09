@@ -16,7 +16,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "env-cmd ./config/dev.env nodemon index.js",
-    "build": "npm run build"
+    "build": "react-scripts build"
   },
   "keywords": [],
   "author": "",
