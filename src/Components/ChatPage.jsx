@@ -290,7 +290,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
 
   return (
     <div className="flex h-[100vh]">
-      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
+      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block  flex-shrink-0 bg-[#6674cc] items-center text-white  rounded-md bg- border ">
         <h2
           className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between"
           onClick={() => {
