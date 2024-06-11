@@ -75,19 +75,19 @@ circle:nth-child(3) {
   padding: 10px;
   border-radius: 10px;
   margin-bottom: 16px;
-  max-width: 40%;
+  max-width: 60%;
   word-wrap: break-word;
 }
 
 .sent {
-  align-self: right;
+  align-self: flex-end;
   background-color: #c1e3ff;
   text-align: left;
   margin-left: auto;
 }
 
 .received {
-  align-items: right;
+  align-self: flex-start;
   background-color: rgb(230, 230, 230);
   text-align: left;
   margin-right: auto;
