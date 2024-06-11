@@ -21,7 +21,7 @@ import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
 import Avatar from 'react-avatar';
 
-const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
+const socket = io('ws://localhost:5050/', { transports: ['websocket'] });
 
 // wss://reactchat-production-f378.up.railway.app/
 // dev mode http://localhost:5000
