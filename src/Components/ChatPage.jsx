@@ -21,13 +21,13 @@ import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
 import Avatar from 'react-avatar';
 
-// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
+const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
 // wss://reactchat-production-f378.up.railway.app/
 // dev mode http://localhost:5000
-const socket = io("wss://reactchat-production-f378.up.railway.app/", {
-  transports: ["websocket"],
-});
+// const socket = io("wss://reactchat-production-f378.up.railway.app/", {
+//   transports: ["websocket"],
+// });
 
 const ChatPage = ({ darkMode, setDarkMode }) => {
   const location = useLocation();
