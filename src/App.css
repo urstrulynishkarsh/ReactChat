@@ -70,7 +70,27 @@ circle:nth-child(3) {
 }
 
 .message {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 10px;
   margin-bottom: 16px;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.sent {
+  align-self: flex-end;
+  background-color: #c1e3ff;
+  text-align: left;
+  margin-left: auto;
+}
+
+.received {
+  align-self: flex-start;
+  background-color: rgb(230, 230, 230);
+  text-align: left;
+  margin-right: auto;
 }
 
 .message__name {
@@ -181,13 +201,12 @@ circle:nth-child(3) {
   border-radius: 4px;
   transform: translate(-50%, 0);
 }
-iframe{
+iframe {
   border-top: 10px solid #addff3;
   border-radius: 20px;
   border-bottom: 20px solid #addff3;
   border-left: 6px solid #addff3;
   border-right: 6px solid #addff3;
-
 }
 
 @keyframes circle-size {
