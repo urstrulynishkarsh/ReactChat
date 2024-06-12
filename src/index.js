@@ -7,6 +7,8 @@ import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
 import Loader from "./Components/Loader";
 import { DarkModeToggle } from "dark-mode-toggle";
+import { ThemeContextProvider } from "./Context/ThemeContext";
+import ThemeProvider from "./providers/ThemeProvider";
 
 const RootComponent = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -37,9 +39,14 @@ const RootComponent = () => {
         </div>
       ) : (
         <BrowserRouter>
+         <ThemeContextProvider>
+         <ThemeProvider >
+          
           <App />
           <Toaster />
           <ToastContainer />
+          </ThemeProvider>
+          </ThemeContextProvider>
         </BrowserRouter>
       )}
     </>

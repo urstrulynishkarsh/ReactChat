@@ -1,27 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../Context/ThemeContext";
 
 const MessageTemplate = ({
   username,
   createdAt,
   message,
-  darkMode,
   isOwnMessage,
 }) => {
   const limitedUsername =
     username.length > 10 ? username.slice(0, 10) + "..." : username;
+    const {theme}=useContext(ThemeContext);
+    const isDarkMode = theme === 'dark';
   return (
     <div className={`message ${isOwnMessage ? "sent" : "received"}`}>
       <p>
         <span
           className={`${
-            darkMode ? "text-richblack-700" : " text-black"
+            isDarkMode ? "text-richblack-700" : " text-black"
           }  message__name`}
         >
           {limitedUsername}
         </span>
         <span className="message__meta">{createdAt}</span>
       </p>
-      <p className={`${darkMode ? "text-customgrey" : " text-black"}`}>
+      <p className={`${isDarkMode ? "text-customgrey" : " text-black"}`}>
         {message}
       </p>
     </div>

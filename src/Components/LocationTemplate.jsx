@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import MapEmbed from "./MapEmbed";
+import { ThemeContext } from "../Context/ThemeContext";
 const LocationTemplate = ({
   username,
   createdAt,
   url,
-  darkMode,
+
   isOwnMessage,
 }) => {
   // console.log(username)
   const limitedUsername =
     username.length > 10 ? username.slice(0, 10) + "..." : username;
+
+    const {theme}=useContext(ThemeContext);
+    const isDarkMode = theme === 'dark';
   return (
     <div className={`message ${isOwnMessage ? "sent" : "received"}`}>
       <p>
         <span
           className={`${
-            darkMode ? "text-white" : " text-black"
+            isDarkMode ? "text-white" : " text-black"
           }  message__name`}
         >
           {limitedUsername}
@@ -30,7 +34,7 @@ const LocationTemplate = ({
           to={url}
           target="_blank"
           rel="noopener noreferrer"
-          className={`${darkMode ? "text-white" : ""}  text-caribbeangreen-400`}
+          className={`${isDarkMode ? "text-white" : ""}  text-caribbeangreen-400`}
         >
           My current location
         </Link>

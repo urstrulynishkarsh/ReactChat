@@ -11,6 +11,10 @@ body {
   margin: 0;
 }
 
+.react-toggle-dark-mode__moon-svg circle {
+  animation: none !important;
+}
+
 .cardname {
   min-width: 0;
   overflow-wrap: break-word;
@@ -289,3 +293,29 @@ iframe {
     transform: scale(1) rotate(360deg);
   }
 }
+
+
+
+
+/* Light theme styles */
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Dark theme styles */
+.dark {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+

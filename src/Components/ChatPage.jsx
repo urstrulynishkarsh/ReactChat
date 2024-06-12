@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { io } from "socket.io-client";
 import { useLocation } from "react-router";
 import MessageTemplate from "./MessageTemplate";
@@ -20,6 +20,7 @@ import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
 import Avatar from "react-avatar";
+import { ThemeContext } from "../Context/ThemeContext";
 
 const socket = io('ws://localhost:6060/', { transports: ['websocket'] });
 
@@ -29,7 +30,10 @@ const socket = io('ws://localhost:6060/', { transports: ['websocket'] });
 //   transports: ["websocket"],
 // });
 
-const ChatPage = ({ darkMode, setDarkMode }) => {
+const ChatPage = () => {
+  const {theme}=useContext(ThemeContext);
+  const isDarkMode = theme === 'dark';
+  
   const location = useLocation();
   const navigate = useNavigate();
   const [messages, setMessages] = useState([]);
@@ -380,8 +384,6 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           {messages.map((msg, index) =>
             msg.url ? (
               <LocationTemplate
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
                 key={index}
                 username={msg.username}
                 createdAt={msg.createdAt}
@@ -390,8 +392,6 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               />
             ) : (
               <MessageTemplate
-                darkMode={darkMode}
-                setDarkMode={setDarkMode}
                 key={index}
                 username={msg.username}
                 createdAt={msg.createdAt}
@@ -414,7 +414,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             <input
               name="message"
               placeholder="Message"
-              className="rounded-lg"
+              className={` rounded-lg ${isDarkMode ? "text-customgrey" : " text-black"}`}
               value={inputMessage}
               onChange={handleTyping}
               required
@@ -423,7 +423,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               <FaMicrophone
                 size={40}
                 className={`m-2 mr-3 ${
-                  darkMode ? "text-white" : "text-pure-greys-600"
+                  isDarkMode ? "text-white" : "text-pure-greys-600"
                 }`}
                 onClick={startListening}
               />
@@ -478,7 +478,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       </div>
 
       {isMenuOpen && (
-        <MobileMenu users={users} room={room} darkMode={darkMode} />
+        <MobileMenu users={users} room={room} darkMode={isDarkMode} />
       )}
       {showShareBox && (
         <ShareBox
