@@ -23,15 +23,20 @@
     "web-vitals": "^2.1.4",
     "ws": "^8.16.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/urstrulynishkarsh/react-tailwind-css-starter-pack.git"
+  },
+  "author": "Nishkarsh Verma",
+  "bugs": {
+    "url": "https://github.com/urstrulynishkarsh/react-tailwind-css-starter-pack/issues"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "server": "cd server && npm run dev",
     "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
-  },
-  "devDependencies": {
-    "tailwindcss": "^3.2.7"
   },
   "browserslist": {
     "production": [
