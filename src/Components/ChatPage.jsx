@@ -19,13 +19,13 @@ import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
-import Avatar from "react-avatar";
+import { MdOutlineEmojiEmotions } from "react-icons/md";
 
-// const socket = io('ws://localhost:4000/', { transports: ['websocket'] });
+// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
 
 // wss://reactchat-production-f378.up.railway.app/
 // dev mode http://localhost:5000
-const socket = io("wss://reactchathub.onrender.com/", {
+const socket = io("wss://reactchat-production-f378.up.railway.app/", {
   transports: ["websocket"],
 });
 
@@ -38,6 +38,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const [typingUsers, setTypingUsers] = useState([]);
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
+  const [isEmojiClicked, setIsEmojiClicked] = useState(false)
   const [isMicOpen, setMicOpen] = useState(false);
 
   const [micHide, setMicHide] = useState(false);
@@ -71,6 +72,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   //     socket.off('disconnect');
   //   };
   // }, []);
+
 
   useEffect(() => {
     const localusername = localStorage.getItem("username");
@@ -288,9 +290,14 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     recognition.start();
   };
 
+  const handle_emoji_click = (e) => {
+    // console.log(e)
+    setInputMessage(prevMsg => prevMsg + e.emoji)
+  }
+
   return (
-    <div className="flex h-[100vh]">
-      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block  flex-shrink-0 bg-[#6674cc] items-center text-white  rounded-md bg- border ">
+    <div className="flex h-[100vh]" onClick={() => setIsEmojiClicked(false)}>
+      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
         <h2
           className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between"
           onClick={() => {
@@ -308,46 +315,27 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </h3>
         <ul className="users">
           {users.map((user, index) => (
-            <div
-              key={index}
-              className="ml-2"
-              style={{
-                display: "flex",
-                justifyContent: "start",
-                alignItems: "center",
-                gap: "5px",
-                margin: "10px",
-              }}
-            >
-              <Avatar size={40} name={user.username} round={true} />
-              <div>
-                {user.username}
-                <div
-                  style={{
-                    color: "#2ecc71",
-                    fontWeight: "800",
-                  }}
-                >
-                  Online
-                </div>
-              </div>
-            </div>
+            <li key={index} className="ml-2">
+              {user.username}
+              <span className="hello"></span>
+            </li>
           ))}
         </ul>
       </div>
       <div
-        className="flex flex-col brosize pt-20 max-h-screen"
+        className=" flex  flex-col brosize  max-h-screen"
         style={{ flexGrow: 1 }}
       >
         <div
           id="messages"
-          className="flex flex-col overflow-y-auto "
+          className=" overflow-y-auto "
           ref={messagesContainerRef}
           style={{
             flexGrow: 1,
             padding: "12px 24px 0 24px",
             overflowAnchor: "bottom",
           }}
+
         >
           <div className="right-8 absolute top-3 ">
             <div className=" flex">
@@ -386,7 +374,6 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 username={msg.username}
                 createdAt={msg.createdAt}
                 url={msg.url}
-                isOwnMessage={msg.username === username} // checking if this message is from current user
               />
             ) : (
               <MessageTemplate
@@ -396,7 +383,6 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 username={msg.username}
                 createdAt={msg.createdAt}
                 message={msg.message}
-                isOwnMessage={msg.username === username} //same as above
               />
             )
           )}
@@ -405,12 +391,15 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <p className="pl-4 text-[#6674cc] font-bold">{userTyping.data}</p>
         )}
 
-        <div className="compose">
+        <EmojiPicker onEmojiClick={handle_emoji_click} open={isEmojiClicked} />
+
+        <div className="compose" onClick={(e) => e.stopPropagation()}>
           <form
             id="message-form"
             className="flex items-center"
             onSubmit={handleSubmit}
           >
+            <MdOutlineEmojiEmotions size={35} color="#6674cc" onClick={() => setIsEmojiClicked(prev => !prev)} />
             <input
               name="message"
               placeholder="Message"
@@ -422,9 +411,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             {!micHide && (
               <FaMicrophone
                 size={40}
-                className={`m-2 mr-3 ${
-                  darkMode ? "text-white" : "text-pure-greys-600"
-                }`}
+                className={`m-2 mr-3 ${darkMode ? "text-white" : "text-pure-greys-600"
+                  }`}
                 onClick={startListening}
               />
             )}

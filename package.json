@@ -6,7 +6,7 @@
     "browser-router": "^0.2.0",
     "concurrently": "^8.2.2",
     "dark-mode-toggle": "^0.15.0",
-    "emoji-picker-react": "^4.9.2",
+    "emoji-picker-react": "^4.9.3",
     "moment": "^2.30.1",
     "multer": "^1.4.5-lts.1",
     "mustache": "^4.2.0",
@@ -41,12 +41,6 @@
     "server": "cd server && npm run dev",
     "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -58,8 +52,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "tailwindcss": "^3.2.7"
   }
 }
