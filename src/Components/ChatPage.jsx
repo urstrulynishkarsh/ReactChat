@@ -19,12 +19,14 @@ import MobileMenu from "./MobileMenu";
 import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import { MdOutlineEmojiEmotions } from "react-icons/md";
+import MicroPhone from "./MicroPhone";
+import Avatar from "react-avatar";
 
-// const socket = io('ws://localhost:8080/', { transports: ['websocket'] });
+// const socket = io('ws://localhost:4000/', { transports: ['websocket'] });
 
 // wss://reactchat-production-f378.up.railway.app/
 // dev mode http://localhost:5000
-const socket = io("wss://reactchat-production-f378.up.railway.app/", {
+const socket = io("wss://reactchathub.onrender.com/", {
   transports: ["websocket"],
 });
 
@@ -38,6 +40,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   const messagesContainerRef = useRef(null);
   const [hasError, setHasError] = useState(false);
   const [isEmojiClicked, setIsEmojiClicked] = useState(false)
+  const [isMicOpen, setMicOpen] = useState(false);
 
   const [micHide, setMicHide] = useState(false);
   const [showShareBox, setShowShareBox] = useState(false);
@@ -72,6 +75,12 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
   // }, []);
 
   useEffect(() => {
+    const localusername = localStorage.getItem("username");
+    const localroom = localStorage.getItem("room");
+
+    if (localusername !== username || localroom !== room) {
+      return navigate("/");
+    }
     socket.emit("join", { username, room }, (data) => {
       if (!data.status) {
         // Display popup if the user is already in a room
@@ -120,7 +129,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
 
     socket.on("roomData", ({ room, users }) => {
       setUsers(users);
-      console.log("my Users: ", users);
+      console.table(users);
       console.log("room", room);
     });
 
@@ -240,10 +249,11 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         if (socket) {
+          localStorage.clear("username");
+          localStorage.clear("room");
           socket.disconnect(); // Disconnect the socket connection
           console.log("Disconnected from the chat server!");
           window.location.href = "/";
-
         } else {
           console.log("No active chat connection to disconnect.");
         }
@@ -251,21 +261,30 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     });
   }
 
-
-
-
   const startListening = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const SpeechRecognition =
+      window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setMicHide(true);
       return;
     }
     const recognition = new SpeechRecognition();
 
+    recognition.onstart = () => {
+      console.log("Speech recognition service has started");
+      setMicOpen(true);
+    };
+
+    recognition.onaudioend = () => {
+      console.log("Audio capturing ended");
+      setMicOpen(false);
+    };
+
     recognition.onresult = (event) => {
       const currentTranscript = event.results[0][0].transcript;
       console.log(currentTranscript);
-      setInputMessage(currentTranscript);
+      setMicOpen(false);
+      setInputMessage((prev) => prev + currentTranscript);
     };
 
     recognition.start();
@@ -280,6 +299,15 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     <div className="flex h-[100vh]" onClick={() => setIsEmojiClicked(false)}>
       <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block   bg-[#6674cc] items-center text-white  rounded-md bg- border ">
         <h2 className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between" onClick={() => { setShowShareBox(true) }}>
+
+    <div className="flex h-[100vh]">
+      <div className="w-[250px] h-[100vh] hidden xl:block lg:block md:block sm:block  flex-shrink-0 bg-[#6674cc] items-center text-white  rounded-md bg- border ">
+        <h2
+          className="font-normal text-[20px] bg-[#eae4f6] text-richblack-900 p-[24px] flex items-center justify-between"
+          onClick={() => {
+            setShowShareBox(true);
+          }}
+        >
           ROOM NO: {room}
           <FaShare className="text-[#6674cc] ml-2" size={30} />
         </h2>
@@ -291,20 +319,40 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
         </h3>
         <ul className="users">
           {users.map((user, index) => (
-            <li key={index} className="ml-2">
-              {user.username}
-              <span className="hello"></span>
-            </li>
+            <div
+              key={index}
+              className="ml-2"
+              style={{
+                display: "flex",
+                justifyContent: "start",
+                alignItems: "center",
+                gap: "5px",
+                margin: "10px",
+              }}
+            >
+              <Avatar size={40} name={user.username} round={true} />
+              <div>
+                {user.username}
+                <div
+                  style={{
+                    color: "#2ecc71",
+                    fontWeight: "800",
+                  }}
+                >
+                  Online
+                </div>
+              </div>
+            </div>
           ))}
         </ul>
       </div>
       <div
-        className=" flex  flex-col brosize  max-h-screen"
+        className="flex flex-col brosize pt-20 max-h-screen"
         style={{ flexGrow: 1 }}
       >
         <div
           id="messages"
-          className=" overflow-y-auto "
+          className="flex flex-col overflow-y-auto "
           ref={messagesContainerRef}
           style={{
             flexGrow: 1,
@@ -350,6 +398,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 username={msg.username}
                 createdAt={msg.createdAt}
                 url={msg.url}
+                isOwnMessage={msg.username === username} // checking if this message is from current user
               />
             ) : (
               <MessageTemplate
@@ -359,6 +408,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 username={msg.username}
                 createdAt={msg.createdAt}
                 message={msg.message}
+                isOwnMessage={msg.username === username} //same as above
               />
             )
           )}
@@ -367,11 +417,20 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
           <p className="pl-4 text-[#6674cc] font-bold">{userTyping.data}</p>
         )}
 
+
         <EmojiPicker onEmojiClick={handle_emoji_click} open={isEmojiClicked} />
 
         <div className="compose" onClick={(e) => e.stopPropagation()}>
           <form id="message-form" className="flex items-center" onSubmit={handleSubmit}>
             <MdOutlineEmojiEmotions size={35} color="#6674cc" onClick={() => setIsEmojiClicked(prev => !prev)} />
+
+        <div className="compose">
+          <form
+            id="message-form"
+            className="flex items-center"
+            onSubmit={handleSubmit}
+          >
+
             <input
               name="message"
               placeholder="Message"
@@ -380,7 +439,15 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               onChange={handleTyping}
               required
             />
-            {!micHide && (<FaMicrophone size={40} className={`m-2 mr-3 ${darkMode ? 'text-white' : 'text-pure-greys-600'}`} onClick={startListening} />)}
+            {!micHide && (
+              <FaMicrophone
+                size={40}
+                className={`m-2 mr-3 ${
+                  darkMode ? "text-white" : "text-pure-greys-600"
+                }`}
+                onClick={startListening}
+              />
+            )}
             <button
               type="submit"
               className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
@@ -433,7 +500,13 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       {isMenuOpen && (
         <MobileMenu users={users} room={room} darkMode={darkMode} />
       )}
-      {showShareBox && (<ShareBox showShareBox={setShowShareBox} link={`https://reactchatio.vercel.app?room=${room}`} />)}
+      {showShareBox && (
+        <ShareBox
+          showShareBox={setShowShareBox}
+          link={`https://reactchatio.vercel.app?room=${room}`}
+        />
+      )}
+      {isMicOpen && <MicroPhone />}
     </div>
   );
 };

@@ -20,7 +20,7 @@ const {
   generateLocationMessage,
 } = require("./Utils/Messages");
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 
 // Use cors middleware with WebSocket support
 // app.use(cors({
