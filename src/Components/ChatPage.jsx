@@ -335,7 +335,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             padding: "12px 24px 0 24px",
             overflowAnchor: "bottom",
           }}
-          
+
         >
           <div className="right-8 absolute top-3 ">
             <div className=" flex">
@@ -411,9 +411,8 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             {!micHide && (
               <FaMicrophone
                 size={40}
-                className={`m-2 mr-3 ${
-                  darkMode ? "text-white" : "text-pure-greys-600"
-                }`}
+                className={`m-2 mr-3 ${darkMode ? "text-white" : "text-pure-greys-600"
+                  }`}
                 onClick={startListening}
               />
             )}
