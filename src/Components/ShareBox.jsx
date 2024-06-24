@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaWhatsapp } from 'react-icons/fa';
 import { BsLink45Deg, BsX } from "react-icons/bs";
+import { ReactComponent as TwitterIcon } from 'D:/MyBlog/ReactChat/src/assets/twitter.svg';
 
 function ShareBox({ link, showShareBox }) {
     const [copy, setCopy] = useState("Copy");
@@ -32,9 +33,9 @@ function ShareBox({ link, showShareBox }) {
                         <a href={`https://www.facebook.com/sharer/sharer.php?u=${link}&title=react-chat`} target='_blank'>
                             <FaFacebook className='text-blue-600 hover:text-blue-800 cursor-pointer' size={30} />
                         </a>
-                        <a href={`https://twitter.com/intent/tweet?url=${link}&text=react-chat`} target='_blank'>
-                            <FaTwitter className='text-blue-400 hover:text-blue-600 cursor-pointer' size={30} />
-                        </a>
+                           <a href={'https://twitter.com/intent/tweet?url=${link}&title=react-chat'} target='_blank'>
+                            <TwitterIcon className='text-blue-400 hover:text-blue-600 cursor-pointer' size={30} />
+                       </a>
                         < a href={`https://www.linkedin.com/shareArticle?url=${link}&title=react-chat&summary=Join-room`} target='_blank'>
                             <FaLinkedin className='text-blue-700 hover:text-blue-900 cursor-pointer' size={30} />
                         </a>
