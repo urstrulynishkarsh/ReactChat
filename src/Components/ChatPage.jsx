@@ -259,6 +259,39 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     });
   }
 
+  function handleChangeBackground() {
+    Swal.fire({
+      title: "Change Background",
+      showCancelButton: true,
+      confirmButtonText: "Choose File",
+      cancelButtonText: "Cancel",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("backgroundImageInput").click();
+      }
+    });
+  }
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const imageUrl = reader.result;
+      localStorage.setItem("backgroundImage", imageUrl);
+      const backgroundDiv = document.getElementById("messages");
+      if (backgroundDiv) {
+        backgroundDiv.style.backgroundImage = `url(${imageUrl})`;
+        backgroundDiv.style.backgroundSize = "1300px auto";
+        backgroundDiv.style.backgroundRepeat = "no-repeat";
+        backgroundDiv.style.backgroundPosition = "center";
+      }
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
   const startListening = () => {
     const SpeechRecognition =
       window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -368,6 +401,18 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                   />
                 )}
               </button>
+              <button
+                onClick={handleChangeBackground}
+                className="focus:outline-none relative mr-24 focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
+              >
+                Change Background Image
+              </button>
+              <input
+                type="file"
+                id="backgroundImageInput"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
               <button
                 onClick={handleDisconnectConfirmation}
                 className="focus:outline-none relative  focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
