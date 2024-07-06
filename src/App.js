@@ -9,6 +9,7 @@ import { WiDaySunny } from "react-icons/wi";
 import { MdModeNight } from "react-icons/md";
 import {UseAuthProvider} from "./Context/UserAuthContext";
 import {PrivateRoute} from "./Components/PrivateRoute";
+import ContactPage from "./Components/Contact";
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
         <UseAuthProvider>
           <Routes>
             <Route path="/" element={<HomePage darkMode={darkMode}/>}/>
+            <Route path="/contact" element={<ContactPage darkMode={darkMode}/>} />
             <Route path="chat" element={
                 <PrivateRoute>
                     <ChatPage darkMode={darkMode} setDarkMode={setDarkMode} />
