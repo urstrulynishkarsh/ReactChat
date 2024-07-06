@@ -4,7 +4,7 @@ import Qs from "qs";
 import { io } from "socket.io-client";
 import "./HomePage.css";
 import { useAuth } from "../Context/UserAuthContext";
-
+import { Link } from "react-router-dom";
 import q from "../assets/light_svg.svg"
 import s from "../assets/svg.svg"
 import { Tilt } from "react-tilt";
@@ -91,12 +91,12 @@ const HomePage = ({darkMode}) => {
           <button type="submit" className="w-[100%] cursor-pointer p-[28px] bg-[#FF713E] border-none  text-white text-2xl transition duration-300 ease-in-out hover:bg-[#e45622] disabled:cursor-default disabled:bg-[#7c5cbf94] rounded-lg">
             Join
           </button>
+          <div className={`text-[1rem] text-center mt-2 font-semibold ${darkMode ? 'text-white': 'text-black'}`}>
+            Having a query? <Link to="/contact" className="hover:text-blue-500">Contact Us</Link>
+          </div>
         </form>
-       
       </div>
       </div>
-
-     
     
 
     <div className=" img w-1/2 flex justify-center items-center " style={{paddingRight: '3vw'}}>
