@@ -50,6 +50,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
     isTyping: false,
     data: "",
   });
+  const [textareaHeight, setTextareaHeight] = useState("3rem");
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -170,6 +171,14 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
       socket.emit("STOP_TYPING");
       setIamTyping(false);
     }, [500]);
+  };
+
+  const handleTextareaResize = (event) => {
+    const { scrollHeight, clientHeight } = event.target;
+
+    // Ensure the textarea doesn't exceed maxHeight
+    const newHeight = Math.min(10 * clientHeight, scrollHeight);
+    setTextareaHeight(`${newHeight}px`);
   };
 
   const handleSendLocation = () => {
@@ -411,14 +420,22 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
             className="flex items-center"
             onSubmit={handleSubmit}
           >
-            <input
+            <textarea
               name="message"
               placeholder="Message"
               className="rounded-lg"
               value={inputMessage}
               onChange={handleTyping}
-              required
+              onInput={handleTextareaResize}
+              style={{
+                resize: "none",
+                minHeight: "1.5rem",
+                maxHeight: "10rem",
+                height: textareaHeight,
+                overflowY: "auto",
+              }}
             />
+
             {!micHide && (
               <FaMicrophone
                 size={40}
