@@ -109,6 +109,8 @@
       font-size: 1.5rem;
     }
 
+    /* this is initiale message will be displayed first then later on all animations */
+
     /* Initial message styling */
 .initial-message::before{
   position: absolute;
