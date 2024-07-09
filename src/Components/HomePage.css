@@ -1,51 +1,231 @@
-
-
 /* .centered-form__box {
-background:transparent;
+    background: transparent;
     /* padding: 3px; */
     /* padding-left: 20px; */
     /* width: 25vw; */
     /* height: 35vw; */
 
-
-     @media (max-width: 850px) {
-        .form{
-            width: 35vw;
-            height: 60vw;
-           
+    .centered-form__box {
+      background: transparent;
+    
+      @media (max-width: 850px) {
+        .form {
+          width: 35vw;
+          height: 60vw;
         }
       }
-
-    @media screen and (max-width:450px){
+    
+      @media screen and (max-width: 450px) {
         .img {
-            width: 90% !important; 
-            height: auto; 
-            margin-top: 30px;
-            
+          width: 90% !important;
+          height: auto;
+          margin-top: 30px;
         }
-        .form{
-            
-            width: 100% !important;
-            
+        .form {
+          width: 100% !important;
         }
-        .join{
-           
-           margin-left: 50vw;
-           
+        .join {
+          margin-left: 50vw;
         }
-       
-       .input{
-     
-        margin-left: 25vw;
- }
-      
-       .image-class {
-        margin-bottom: -15rem;
+        .input {
+          margin-left: 25vw;
+        }
+        .image-class {
+          margin-bottom: -15rem;
+        }
       }
-       
+    }
+    
+    /* Micky mouuse container styling starts here */
+    .mickey-clock-container {
+      margin-bottom: 1rem; /* Added margin below the clock */
+      position: relative; /* Ensure relative positioning for absolute content */
+    }
+    
+    .mickey-clock {
+      position: relative;
+      width: 100px;
+      height: 100px;
+      background: #333; /* Default background color */
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white; /* Default text color */
+      font-family: 'Arial', sans-serif;
+      font-size: 1.5rem;
+      animation: color-change 3s infinite alternate; /* Color-changing animation */
+      transform-style: preserve-3d; /* Enable 3D transformations */
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+      outline: 2px solid transparent; /* Transparent outline */
+      transition: outline-color 0.3s ease; /* Smooth transition for outline color */
+    }
+    
+    .mickey-clock:hover {
+      outline: 2px solid;
+      outline-color: #FF0000; /* Red outline color on hover */
+      box-shadow: 0 0 20px rgba(255, 113, 62, 0.6); /* Shadow color on hover */
+    }
+    
+    .mickey-clock.dark-mode {
+      background: #ffffff; /* Dark mode background color */
+      color: #fff; /* Dark mode text color */
+    }
+    
+    .mickey-clock .ears {
+      transform: translateZ(-10px); /* Adjust the Z-axis for 3D effect */
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: #333; /* Default ear color */
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      /* Soft shadow for depth */
+    }
+    
+    .mickey-clock .left-ear {
+      top: -25px;
+      left: -25px;
+    }
+    
+    .mickey-clock .right-ear {
+      top: -25px;
+      right: -25px;
+    }
+    
+    .mickey-clock .face {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .mickey-clock .time {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.5rem;
     }
 
+    /* Initial message styling */
+.initial-message::before{
+  position: absolute;
+  bottom: 10%; /* Adjust position as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  text-shadow: #fff 2px solid;
+  font: bold 11px;
+  background-color: #333;
+  color: rgb(206, 17, 17);
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 1rem;
+  white-space: nowrap; /* Prevent text wrapping */
+  visibility: visible;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
 
 
+/* Animation keyframes for initial message */
+@keyframes initial-message-animation {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 2;
+  }
+}
 
+
+ 
+
+    .mickey-clock-container::after {
+      content: attr(data-fortune);
+      position: absolute;
+      top: 120px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 1rem;
+      white-space: nowrap;
+       /* Prevent text wrapping */
+       visibility: hidden;
+       transition: opacity 0.3s visibility 0.3s;
+       /* smooth transition for visibility */
+    }
+    
+    /* Animation keyframes for color change */
+    @keyframes color-change {
+      0% {
+        background-color: #333;
+        color: white;
+      }
+      50% {
+        background-color: #ffc53e;
+        color: #333;
+      }
+      100% {
+        background-color: #333;
+        color: white;
+      }
+    }
+    
+    Fortune message popup
+    .mickey-clock-container:hover .mickey-clock::after {
+      position: absolute;
+      top: -80%;
+      left: -10%;
+      width: 120%;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
+      border-radius: 10px;
+      text-align: center;
+      animation: popup 5s forwards; /* Animation for popup effect */
+      z-index: 2; /* Ensure popup is above clock */
+    }
+
+    .mickey-clock-container:hover::after {
+      opacity: 1;
+      visibility: visible;
+      animation: popup 1.5s forwards, vanish-sound 5s; /* Animation for popup effect and sound */
+    }
+
+    
+    /* Keyframes for fortune message popup animation */
+    @keyframes popup {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      10% {
+        transform: translateY(-90%);
+        opacity: 1;
+      }
+      90% {
+        transform: translateY(-90%);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+    }
+    
+
+/* Sound effect for fortune message */
+@keyframes vanish-sound {
+  100% {
+ 
+  }
+}
 
