@@ -32,9 +32,9 @@ const RootComponent = () => {
   return (
     <>
       {isLoading ? (
-        <div>
-          <Loader />
-        </div>
+        <div className="loader-container">
+        <Loader />
+      </div>
       ) : (
         <BrowserRouter>
           <App />
