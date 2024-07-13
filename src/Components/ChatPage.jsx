@@ -20,6 +20,7 @@ import ShareBox from "./ShareBox";
 import { FaMicrophone, FaShare } from "react-icons/fa";
 import MicroPhone from "./MicroPhone";
 import Avatar from "react-avatar";
+import { CoolMode } from "@/components/magicui/cool-mode";
 
 // const socket = io('ws://localhost:4000/', { transports: ['websocket'] });
 
@@ -428,6 +429,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 onClick={startListening}
               />
             )}
+            <CoolMode>
             <button
               type="submit"
               className="focus:outline-none focus:ring-2 focus:ring-brand focus:ring-offset-2 cursor-pointer rounded-md bg-brand text-[#fff] bg-[#6674cc] border-brand font-rubik xl:text-lg border xl:px-6 lg:px-6 md:px-6 sm:px-6 h-12 py-2 flex items-center gap-3 text-lg lg:h-[4rem]"
@@ -450,7 +452,10 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
                 <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
               </svg>
             </button>
+
+            </CoolMode>
           </form>
+          <CoolMode>
           <button
             id="send-location"
             onClick={handleSendLocation}
@@ -474,6 +479,7 @@ const ChatPage = ({ darkMode, setDarkMode }) => {
               <path d="M21 3l-6.5 18a0.55 .55 0 0 1 -1 0l-3.5 -7l-7 -3.5a0.55 .55 0 0 1 0 -1l18 -6.5"></path>
             </svg>
           </button>
+          </CoolMode>
         </div>
       </div>
 
