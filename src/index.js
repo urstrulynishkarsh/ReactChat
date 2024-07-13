@@ -32,7 +32,7 @@ const RootComponent = () => {
   return (
     <>
       {isLoading ? (
-        <div>
+          <div className="loader-container">
           <Loader />
         </div>
       ) : (
