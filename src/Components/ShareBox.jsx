@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaWhatsapp } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter, FaWhatsapp, FaDiscord } from 'react-icons/fa';
 import { BsLink45Deg, BsX } from "react-icons/bs";
 
 function ShareBox({ link, showShareBox }) {
@@ -29,20 +29,23 @@ function ShareBox({ link, showShareBox }) {
                         <BsX size={30} onClick={hideShareBox} />
                     </div>
                     <div className='flex justify-between mb-4'>
-                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${link}&title=react-chat`} target='_blank'>
-                            <FaFacebook className='text-blue-600 hover:text-blue-800 cursor-pointer' size={30} />
+                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${link}&title=react-chat`} target='_blank' rel='noopener noreferrer'>
+                            <FaFacebook className='text-blue-600 hover:text-[#3b5998] cursor-pointer' size={30} />
                         </a>
-                        <a href={`https://twitter.com/intent/tweet?url=${link}&text=react-chat`} target='_blank'>
-                            <FaTwitter className='text-blue-400 hover:text-blue-600 cursor-pointer' size={30} />
+                        <a href={`https://twitter.com/intent/tweet?url=${link}&text=react-chat`} target='_blank' rel='noopener noreferrer'>
+                            <FaTwitter className='text-blue-400 hover:text-[#1da1f2] cursor-pointer' size={30} />
                         </a>
-                        < a href={`https://www.linkedin.com/shareArticle?url=${link}&title=react-chat&summary=Join-room`} target='_blank'>
-                            <FaLinkedin className='text-blue-700 hover:text-blue-900 cursor-pointer' size={30} />
+                        <a href={`https://www.linkedin.com/shareArticle?url=${link}&title=react-chat&summary=Join-room`} target='_blank' rel='noopener noreferrer'>
+                            <FaLinkedin className='text-blue-700 hover:text-[#0077b5] cursor-pointer' size={30} />
                         </a>
-                        <a href={`https://api.whatsapp.com/send?text=react-chat+${link}`} target='_blank'>
-                            <FaWhatsapp className='text-green-600 hover:text-green-800 cursor-pointer' size={30} />
+                        <a href={`https://api.whatsapp.com/send?text=react-chat+${link}`} target='_blank' rel='noopener noreferrer'>
+                            <FaWhatsapp className='text-green-600 hover:text-[#25d366] cursor-pointer' size={30} />
                         </a>
-                        < a href={`https://www.instagram.com/?url=${link}`} target='_blank'>
-                            <FaInstagram className='text-pink-600 hover:text-pink-800 cursor-pointer' size={30} />
+                        <a href={`https://www.instagram.com/?url=${link}`} target='_blank' rel='noopener noreferrer'>
+                            <FaInstagram className='text-pink-600 hover:text-[#e1306c] cursor-pointer' size={30} />
+                        </a>
+                        <a href={`https://www.discord.com/?url=${link}`} target='_blank' rel='noopener noreferrer'>
+                            <FaDiscord className='text-blue-600 hover:text-[#7289da] cursor-pointer' size={30} />
                         </a>
                     </div>
                     <div className='mb-4'>
