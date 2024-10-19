@@ -1,17 +1,14 @@
 # **Contributing Guidelines** 📄
 
 This documentation contains a set of guidelines to help you during the contribution process.
-We are happy to welcome all the contributions from anyone willing to improve/add new scripts to this project.
+We are happy to welcome contributions from anyone willing to improve or add new scripts to this project.
 Thank you for helping out and remember, **no contribution is too small.**
 <br>
-Please note we have a [code of conduct](CODE_OF_CONDUCT.md)  please follow it in all your interactions with the project.
-
-
+Please note we have a [code of conduct](CODE_OF_CONDUCT.md); please follow it in all your interactions with the project.
 
 <br>
 
 ## **Need some help regarding the basics?🤔**
-
 
 You can refer to the following articles on basics of Git and Github and also contact the Project Mentors,
 in case you are stuck:
@@ -27,10 +24,10 @@ in case you are stuck:
 ## **Issue Report Process 📌**
 
 1. Go to the project's issues.
-2. Give proper description for the issues.
+2. Provide a proper description of the issue.
 3. Don't spam to get the assignment of the issue 😀.
-4. Wait for till someone is looking into it !.
-5. Start working on issue only after you got assigned that issue 🚀.
+4. Wait untill someone looks into it.
+5. Start working on the issue only after you have been assigned that issue 🚀.
 
 <br>
 
@@ -38,10 +35,10 @@ in case you are stuck:
 
 1. Ensure that you have self reviewed your code 😀
 2. Make sure you have added the proper description for the functionality of the code
-3. I have commented my code, particularly in hard-to-understand areas.
-4. Add screenshot it help in review.
-5. Submit your PR by giving the necesarry information in PR template and hang tight we will review it really soon 🚀
+3. Comment your code, particularly in hard-to-understand areas.
+4. Add a screenshot to help in the review.
+5. Submit your PR by providing the necesarry information in PR template and hang tight; we will review it very soon 🚀
 
 <br>
 
-# **Thank you for contributing💗** 
+# **Thank you for contributing💗**
