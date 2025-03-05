@@ -21,6 +21,7 @@ function App() {
     // Update local storage when dark mode state changes
     useEffect(() => {
       localStorage.setItem("darkMode", JSON.stringify(darkMode));
+      document.body.style.backgroundColor = darkMode ? "#263238" : "#fff";
     }, [darkMode]);
 
 

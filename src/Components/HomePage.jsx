@@ -113,7 +113,7 @@ const HomePage = ({ darkMode }) => {
 
   return (
     <div className="w-screen h-screen flex flex-col-reverse xl:flex-row lg:flex-row md:flex-row sm:flex-row relative">
-      <div className="w-1/2 h-full flex justify-center items-center flex-col">
+      <div className="w-full md:w-1/2 h-full flex justify-center items-center flex-col">
         {/*----------------------- Micky Mouse positioned at the top of the title ---------------------------- */}
         {/* Mickey Mouse digital clock */}
         <div  className="mickey-clock-container"  data-fortune={fortuneMessage}>
@@ -130,7 +130,9 @@ const HomePage = ({ darkMode }) => {
             </div>
           </div>
         </div>
-        <div className="initial-message" style={{ animation: 'initial-message-animation 5s infinite' }} >
+        <div className={`initial-message text-center ${
+            darkMode ? "text-white" : "text-customgrey"
+          }`} style={{ animation: 'initial-message-animation 5s infinite' }} >
           {initial_message}
         </div>
         {/*------------------------- thus it is overlapping with the dark theme thats why positioned at the top of the title --------------- */}
@@ -143,7 +145,7 @@ const HomePage = ({ darkMode }) => {
           >
             JOIN ROOM
           </h1>
-          <form onSubmit={handleSubmit} className="input w-full h-full">
+          <form onSubmit={handleSubmit} className="input w-full">
             <label
               className={`text-[1.1rem] font-semibold ${
                 darkMode ? "text-white" : "text-black"
