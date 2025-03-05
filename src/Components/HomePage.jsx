@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Qs from "qs";
 import { io } from "socket.io-client";
@@ -7,7 +7,7 @@ import { useAuth } from "../Context/UserAuthContext";
 import q from "../assets/light_svg.svg";
 import s from "../assets/svg.svg";
 import { Tilt } from "react-tilt";
-import audio from '../assets/sparkle_sound.mp3';
+import audio from "../assets/sparkle_sound.mp3";
 
 const HomePage = ({ darkMode }) => {
   const socket = io("wss://reactchat-production-f378.up.railway.app/", {
@@ -22,8 +22,7 @@ const HomePage = ({ darkMode }) => {
 
 
   const audioRef = useRef(new Audio(audio));
-
- 
+  
   // Mickey Mouse Clock function -----------------------------------------
   const [currentTime, setCurrentTime] = useState(new Date());
   const [fortuneMessage, setFortuneMessage] = useState();
@@ -59,7 +58,7 @@ const HomePage = ({ darkMode }) => {
   const handleMouseEnter = () => {
     const randomIndex = Math.floor(Math.random() * fortunes.length);
     setFortuneMessage(fortunes[randomIndex]);
-    audioRef.current.play(); 
+    audioRef.current.play();
   };
 
   const handleMouseLeave = () => {
@@ -113,12 +112,11 @@ const HomePage = ({ darkMode }) => {
 
   return (
     <div className="w-screen h-screen flex flex-col-reverse xl:flex-row lg:flex-row md:flex-row sm:flex-row relative">
-      <div className="w-1/2 h-full flex justify-center items-center flex-col">
+      <div className="w-full md:w-1/2 h-full flex justify-center items-center flex-col">
         {/*----------------------- Micky Mouse positioned at the top of the title ---------------------------- */}
         {/* Mickey Mouse digital clock */}
-        <div  className="mickey-clock-container"  data-fortune={fortuneMessage}>
-
-          <div 
+        <div className="mickey-clock-container" data-fortune={fortuneMessage}>
+          <div
             className="mickey-clock"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -130,7 +128,12 @@ const HomePage = ({ darkMode }) => {
             </div>
           </div>
         </div>
-        <div className="initial-message" style={{ animation: 'initial-message-animation 5s infinite' }} >
+        <div
+          className={`initial-message text-center ${
+            darkMode ? "text-white" : "text-customgrey"
+          }`}
+          style={{ animation: "initial-message-animation 5s infinite" }}
+        >
           {initial_message}
         </div>
         {/*------------------------- thus it is overlapping with the dark theme thats why positioned at the top of the title --------------- */}
@@ -143,7 +146,7 @@ const HomePage = ({ darkMode }) => {
           >
             JOIN ROOM
           </h1>
-          <form onSubmit={handleSubmit} className="input w-full h-full">
+          <form onSubmit={handleSubmit} className="input w-full">
             <label
               className={`text-[1.1rem] font-semibold ${
                 darkMode ? "text-white" : "text-black"
@@ -189,7 +192,10 @@ const HomePage = ({ darkMode }) => {
         </div>
       </div>
 
-      <div className="img w-1/2 flex justify-center items-center" style={{ paddingRight: "3vw" }}>
+      <div
+        className="img w-1/2 flex justify-center items-center"
+        style={{ paddingRight: "3vw" }}
+      >
         <Tilt options={defaultOptions}>
           <img
             className="image-class"
